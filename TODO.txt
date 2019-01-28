@@ -1,0 +1,44 @@
+To Do
+  - [DONE] Fill out Form questions
+    - [DONE] Related To:
+      - [DONE] Relation | Person
+      - [DONE] Relation will be dropdown list
+      - Person will be text-field that can auto-complete based on other users
+        - v-autocomplete
+        - Based on list gotten back from 'GET'
+    - [DONE]"Add Relation" Button
+      -[DONE] Button will add row of "Relation | Person"
+        - [DONE] Button should be disabled unless Relation AND Person are filled out
+      - [DONE]Add "Remove" button
+    - [DONE] Add "Notes" Section
+      - [DONE] Text Area
+    - [DONE] Add "Submit" and "Clear" Buttons
+  - [DONE] Form validation
+    - [DONE] On submit
+  - [DONE] Create ProfileCard to be used when looping over familyMembers
+    - [DONE] Image
+      - [DONE] Use Image or Initials (if no Image)
+    - [DONE] First Name
+    - [DONE] Last Name
+
+  - ProfileCard
+    - [DONE] Fix spacing / look & feel
+      - [DONE] Image
+      - [DONE] Initials
+      - [DONE] First Name Last Name (or Last Name, First Name)
+      - OnClick -> Go to Profile
+        - Pass profileObj as prop to CreateProfile
+
+  - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
+  - Save form info to database (on submit)
+    - Create Firebase repo
+    - POST and GET from repo
+      - POST: A profile (profileObj)
+      - GET: All profiles
+      - DELETE: A profile
+  - Ability to edit Profiles
+    - Form that is filled out with Profile information already
+  - Create Sign In Page
+    - Create Admin signIn
+    - Only Admin will be able to "Create Profile" (and edit/delete Profiles)
+  - Split out "Header" code from App.vue (create Header.vue)
