@@ -29,18 +29,21 @@ To Do
       - [DONE] OnClick -> Go to Profile
         - [DONE] Pass profileObj as prop to CreateProfile
       - [DONE] On Hover, highlight ProfileCard (using hover property)
+    - ** Upon profile creation, create uniqueId for each Profile
+      - This uniqueId will be used to save them in database as ${uniqueId}.json
 
     - CreateProfile
-      - If "profile" (props) !== undefined
-        - Submit => Edit
+      - [DONE] If "profile" (props) !== undefined
+        - [DONE] Submit => Edit
           - Edit will save new info
-        - Clear => Delete
+            - PUT vs POST. FIND THE DIFFERENCE
+        - [DONE] Clear => Delete
           - Delete will remove entire profile
-          - Adding confirmation dialog for this
+          - Add confirmation dialog for this
 
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
   - Save form info to database (on submit)
-    - Create Firebase repo
+    - [DONE] Create Firebase repo
     - POST and GET from repo
       - POST: A profile (profileObj)
       - GET: All profiles

@@ -7,22 +7,7 @@ export default new Vuex.Store({
   state: {
     // idToken: null,
     // userId: null,
-    familyMembers: [{
-      image: false,
-      firstName: 'Robert',
-      lastName: 'McInnes',
-      nickName: null,
-      gender: null,
-      birthDate: null,
-      occupation: null,
-      relationship: null,
-      livesIn: null,
-      familyMembers: [{
-        relation: 'Mother',
-        person: 'Janice'
-      }],
-      notes: null
-    }]
+    familyMembers: []
   },
   mutations: {
     setFamilyMembers (state, fetchedFamilyMembers) {
@@ -36,8 +21,25 @@ export default new Vuex.Store({
     // fetchFamilyMembers (via Firebase)
 
     addProfile ({ commit }, profile) {
-      console.log('--addProfile--')
-      commit('addProfile', profile)
+      Vue.http.post(`${profile.firstName}.json`, profile).then(
+        response => {
+          console.log('--addProfile--', response)
+          commit('addProfile', profile)
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    },
+    deleteProfile ({ commit }, profileName) {
+      Vue.http.delete(`${profileName}.json`).then(
+        response => {
+          console.log('--deleteProfile--', response)
+        },
+        error => {
+          console.log(error)
+        }
+      )
     }
   },
   getters: {

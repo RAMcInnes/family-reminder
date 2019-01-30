@@ -285,6 +285,8 @@ export default {
     },
     deleteProfile () {
       console.log('DELETE PROFILE')
+      // Add Confirmation / Warning
+      this.$store.dispatch('deleteProfile', this.firstName)
     }
   }
 }
