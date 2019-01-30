@@ -1,13 +1,20 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
 import Home from './components/Home.vue'
 import CreateProfile from './components/CreateProfile.vue'
 
-export const routes = [
+Vue.use(VueRouter)
+
+const routes = [
   {
     path: '/',
+    name: 'home',
     component: Home
   },
   {
     path: '/about',
+    name: 'about',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -15,6 +22,10 @@ export const routes = [
   },
   {
     path: '/create',
-    component: CreateProfile
+    name: 'create',
+    component: CreateProfile,
+    props: (route) => ({ ...route.params })
   }
 ]
+
+export default new VueRouter({ mode: 'history', routes })

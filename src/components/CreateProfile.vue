@@ -146,8 +146,14 @@
             label="Notes"
             rows="1"
           ></v-textarea>
-          <v-btn @click="submit()">Submit</v-btn>
-          <v-btn @click="clear()">Clear</v-btn>
+          <div v-if="isProfileEmpty(this.profile)">
+            <v-btn @click="submitProfile()">Submit</v-btn>
+            <v-btn @click="clearProfile()">Clear</v-btn>
+          </div>
+          <div v-else>
+            <v-btn @click="editProfile()">Edit</v-btn>
+            <v-btn @click="deleteProfile()">Delete</v-btn>
+          </div>
         </v-form>
       </v-flex>
     </v-layout>
@@ -156,7 +162,14 @@
 
 <script>
 export default {
-  props: ['profile'],
+  props: {
+    profile: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       image: this.profile.image || false,
@@ -190,6 +203,12 @@ export default {
     }
   },
   methods: {
+    isProfileEmpty (obj) {
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) { return false }
+      }
+      return true
+    },
     changeImage (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
@@ -227,7 +246,7 @@ export default {
         })
       }
     },
-    submit () {
+    submitProfile () {
       if (this.$refs.form.validate()) {
         var profileObj = {
           image: this.image,
@@ -242,13 +261,13 @@ export default {
           familyMembers: this.familyMembers,
           notes: this.notes
         }
-        console.log('profileObj', profileObj)
+        // console.log('profileObj', profileObj)
         this.$store.dispatch('addProfile', profileObj)
-        this.clear()
+        this.clearProfile()
         this.$refs.form.resetValidation()
       }
     },
-    clear () {
+    clearProfile () {
       this.image = false
       this.firstName = null
       this.lastName = null
@@ -260,6 +279,12 @@ export default {
       this.livesIn = null
       this.familyMembers = []
       this.notes = null
+    },
+    editProfile () {
+      console.log('EDIT PROFILE')
+    },
+    deleteProfile () {
+      console.log('DELETE PROFILE')
     }
   }
 }

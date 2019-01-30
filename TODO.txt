@@ -26,8 +26,17 @@ To Do
       - [DONE] Image
       - [DONE] Initials
       - [DONE] First Name Last Name (or Last Name, First Name)
-      - OnClick -> Go to Profile
-        - Pass profileObj as prop to CreateProfile
+      - [DONE] OnClick -> Go to Profile
+        - [DONE] Pass profileObj as prop to CreateProfile
+      - [DONE] On Hover, highlight ProfileCard (using hover property)
+
+    - CreateProfile
+      - If "profile" (props) !== undefined
+        - Submit => Edit
+          - Edit will save new info
+        - Clear => Delete
+          - Delete will remove entire profile
+          - Adding confirmation dialog for this
 
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
   - Save form info to database (on submit)

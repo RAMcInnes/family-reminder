@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-card @click="goToProfile(profile)" color="#659DBD" class="white--text">
+        <v-card @click="goToProfile(profile)" color="#659DBD" class="white--text" hover>
             <v-layout justify-center align-center>
                 <v-flex xs4>
                     <v-img v-if="profile.image"
@@ -15,9 +15,7 @@
                 </v-flex>
                 <v-flex xs8>
                     <v-card-title primary-title>
-                    <div>
                         <div class="nameText">{{profile.lastName}}, {{profile.firstName}}</div>
-                    </div>
                     </v-card-title>
                 </v-flex>
             </v-layout>
@@ -26,6 +24,8 @@
 </template>
 
 <script>
+import router from '../router'
+
 export default {
   props: ['profile'],
   computed: {
@@ -36,6 +36,7 @@ export default {
   methods: {
     goToProfile (profileObj) {
       // Route to CreateProfile.vue w/ profileObj as prop
+      router.push({ name: 'create', params: { profile: profileObj } })
     }
   }
 }
