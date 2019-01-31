@@ -161,6 +161,8 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   props: {
     profile: {
@@ -172,6 +174,7 @@ export default {
   },
   data () {
     return {
+      uniqueId: this.profile.uniqueId,
       image: this.profile.image || false,
       firstName: this.profile.firstName,
       lastName: this.profile.lastName,
@@ -249,6 +252,7 @@ export default {
     submitProfile () {
       if (this.$refs.form.validate()) {
         var profileObj = {
+          uniqueId: _.uniqueId();
           image: this.image,
           firstName: this.firstName,
           lastName: this.lastName,
@@ -286,7 +290,7 @@ export default {
     deleteProfile () {
       console.log('DELETE PROFILE')
       // Add Confirmation / Warning
-      this.$store.dispatch('deleteProfile', this.firstName)
+      this.$store.dispatch('deleteProfile', this.uniqueId)
     }
   }
 }

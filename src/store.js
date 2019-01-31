@@ -7,21 +7,36 @@ export default new Vuex.Store({
   state: {
     // idToken: null,
     // userId: null,
-    familyMembers: []
+    profiles: []
   },
   mutations: {
-    setFamilyMembers (state, fetchedFamilyMembers) {
-      state.familyMembers = fetchedFamilyMembers
+    setProfiles (state, fetchedProfiles) {
+      state.familyMembers = fetchedProfiles
     },
     addProfile (state, profile) {
       state.familyMembers.push(profile)
+    },
+    editProfile (state, profile) {
+
+    },
+    deleteProfile (state, uniqueId) {
+
     }
   },
   actions: {
-    // fetchFamilyMembers (via Firebase)
-
+    fetchProfiles ({ commit }) {
+      Vue.http.get().then(
+        response => {
+          console.log('--fetchProfiles--', response)
+          commit('setProfiles', response.data)
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    },
     addProfile ({ commit }, profile) {
-      Vue.http.post(`${profile.firstName}.json`, profile).then(
+      Vue.http.put(`${profile.uniqueId}.json`, profile).then(
         response => {
           console.log('--addProfile--', response)
           commit('addProfile', profile)
@@ -31,10 +46,22 @@ export default new Vuex.Store({
         }
       )
     },
-    deleteProfile ({ commit }, profileName) {
-      Vue.http.delete(`${profileName}.json`).then(
+    editProfile ({ commit }, profile) {
+      Vue.http.put(`${profile.uniqueId}.json`, profile).then(
+        response => {
+          console.log('--editProfile--', response)
+          commit('editProfile', profile)
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    },
+    deleteProfile ({ commit }, uniqueId) {
+      Vue.http.delete(`${uniqueId}.json`).then(
         response => {
           console.log('--deleteProfile--', response)
+          commit('deleteProfile', uniqueId);
         },
         error => {
           console.log(error)
@@ -43,8 +70,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    familyMembers (state) {
-      return state.familyMembers
+    profiles (state) {
+      return state.profiles
     }
   }
 })
