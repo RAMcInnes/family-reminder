@@ -11,35 +11,61 @@ export default new Vuex.Store({
   },
   mutations: {
     setProfiles (state, fetchedProfiles) {
-      state.familyMembers = fetchedProfiles
+      state.profiles = fetchedProfiles
     },
     addProfile (state, profile) {
-      state.familyMembers.push(profile)
+      state.profiles.push(profile)
     },
     editProfile (state, profile) {
-
+      for (let index in state.profiles) {
+        const profileMatch = state.profiles[index]
+        // Match based on uniqueId
+        if (profileMatch.uniqueId === profile.uniqueId) {
+          state.profiles[index] = profile
+        }
+      }
     },
     deleteProfile (state, uniqueId) {
-
+      for (let index in state.profiles) {
+        const profileMatch = state.profiles[index]
+        // Match based on uniqueId
+        if (profileMatch.uniqueId === uniqueId) {
+          state.profiles.splice(index, 1)
+        }
+      }
     }
   },
   actions: {
     fetchProfiles ({ commit }) {
-      Vue.http.get().then(
+      Vue.http.get('profiles.json').then(
         response => {
           console.log('--fetchProfiles--', response)
-          commit('setProfiles', response.data)
+          let profiles = response.body
+          let fetchedProfiles = []
+          for (let uniqueId in profiles) {
+            const profile = profiles[uniqueId]
+            // Ensure no indexes contain 'null'
+            if (profile) {
+              fetchedProfiles.push(profile)
+            }
+          }
+          commit('setProfiles', fetchedProfiles)
         },
         error => {
           console.log(error)
         }
       )
     },
-    addProfile ({ commit }, profile) {
-      Vue.http.put(`${profile.uniqueId}.json`, profile).then(
+    addProfile ({ commit, dispatch }, profile) {
+      Vue.http.post(`profiles.json`, profile).then(
         response => {
           console.log('--addProfile--', response)
+          // Create uniqueId for each profile based on one provided by Firebase
+          profile.uniqueId = response.body.name
           commit('addProfile', profile)
+          // Adds "uniqueId" to DB
+          // TODO: Find better way of doing this as this way is redundant / has an extra call
+          dispatch('editProfile', profile)
         },
         error => {
           console.log(error)
@@ -47,7 +73,7 @@ export default new Vuex.Store({
       )
     },
     editProfile ({ commit }, profile) {
-      Vue.http.put(`${profile.uniqueId}.json`, profile).then(
+      Vue.http.put(`profiles/${profile.uniqueId}.json`, profile).then(
         response => {
           console.log('--editProfile--', response)
           commit('editProfile', profile)
@@ -58,10 +84,10 @@ export default new Vuex.Store({
       )
     },
     deleteProfile ({ commit }, uniqueId) {
-      Vue.http.delete(`${uniqueId}.json`).then(
+      Vue.http.delete(`profiles/${uniqueId}.json`).then(
         response => {
           console.log('--deleteProfile--', response)
-          commit('deleteProfile', uniqueId);
+          commit('deleteProfile', uniqueId)
         },
         error => {
           console.log(error)

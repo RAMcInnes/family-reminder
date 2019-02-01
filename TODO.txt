@@ -21,6 +21,25 @@ To Do
     - [DONE] First Name
     - [DONE] Last Name
 
+
+  - lodash uniqueId() problem
+    - server vs. local
+
+  - FetchProfiles
+    - [DONE] GET call (firebase)
+    - [DONE] Array update (local)
+  - AddProfile
+    - [DONE] POST call (firebase)
+    - [DONE] Array push (local)
+  - ** EditProfile
+    - [DONE] PUT call (firebase)
+    - [DONE] Array update (local)
+    - Force a reload on page load?
+    - Problem w/ page being updated when routed to
+  - DeleteProfile
+    - [DONE] DELETE call (firebase)
+    - [DONE] Array splice (local)
+
   - ProfileCard
     - [DONE] Fix spacing / look & feel
       - [DONE] Image
@@ -29,27 +48,27 @@ To Do
       - [DONE] OnClick -> Go to Profile
         - [DONE] Pass profileObj as prop to CreateProfile
       - [DONE] On Hover, highlight ProfileCard (using hover property)
-    - ** Upon profile creation, create uniqueId for each Profile
-      - This uniqueId will be used to save them in database as ${uniqueId}.json
+    - [DONE] Upon profile creation, create uniqueId for each Profile
+      - [DONE] This uniqueId will be used to save them in database as ${uniqueId}.json
 
-    - CreateProfile
-      - [DONE] If "profile" (props) !== undefined
-        - [DONE] Submit => Edit
-          - Edit will save new info
-            - PUT vs POST. FIND THE DIFFERENCE
-        - [DONE] Clear => Delete
-          - Delete will remove entire profile
-          - Add confirmation dialog for this
+  - CreateProfile
+    - [DONE] If "profile" (props) !== undefined
+      - [DONE] Submit => Edit
+        - [DONE] Edit will save new info
+          - [DONE] PUT vs POST. FIND THE DIFFERENCE
+      - [DONE] Clear => Delete
+        - [DONE] Delete will remove entire profile
+        - Add confirmation dialog for this
 
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
-  - Save form info to database (on submit)
+  - [DONE] Save form info to database (on submit)
     - [DONE] Create Firebase repo
-    - POST and GET from repo
-      - POST: A profile (profileObj)
-      - GET: All profiles
-      - DELETE: A profile
-  - Ability to edit Profiles
-    - Form that is filled out with Profile information already
+    - [DONE] POST and GET from repo
+      - [DONE] POST: A profile (profileObj)
+      - [DONE] GET: All profiles
+      - [DONE] DELETE: A profile
+  - [DONE] Ability to edit Profiles
+    - [DONE] Form that is filled out with Profile information already
   - Create Sign In Page
     - Create Admin signIn
     - Only Admin will be able to "Create Profile" (and edit/delete Profiles)

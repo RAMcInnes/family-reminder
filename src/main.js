@@ -9,7 +9,7 @@ import store from './store'
 Vue.use(VueResource)
 
 // All url requets will go to this URL (POST, GET, etc.)
-Vue.http.options.root = 'https://family-reminder-19fab.firebaseio.com/profiles/'
+Vue.http.options.root = 'https://family-reminder-19fab.firebaseio.com/'
 
 Vue.config.productionTip = false
 

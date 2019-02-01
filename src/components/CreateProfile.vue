@@ -161,7 +161,7 @@
 </template>
 
 <script>
-import _ from 'lodash';
+import router from '../router'
 
 export default {
   props: {
@@ -252,7 +252,7 @@ export default {
     submitProfile () {
       if (this.$refs.form.validate()) {
         var profileObj = {
-          uniqueId: _.uniqueId();
+          uniqueId: '',
           image: this.image,
           firstName: this.firstName,
           lastName: this.lastName,
@@ -285,12 +285,34 @@ export default {
       this.notes = null
     },
     editProfile () {
-      console.log('EDIT PROFILE')
+      if (this.$refs.form.validate()) {
+        var profileObj = {
+          uniqueId: this.uniqueId,
+          image: this.image,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          nickName: this.nickName,
+          gender: this.gender,
+          birthDate: this.birthDate,
+          occupation: this.occupation,
+          relationship: this.relationship,
+          livesIn: this.livesIn,
+          familyMembers: this.familyMembers,
+          notes: this.notes
+        }
+        // console.log('profileObj', profileObj)
+        this.$store.dispatch('editProfile', profileObj)
+        this.$refs.form.resetValidation()
+        // Should this be in the .then() of the response [?]
+        router.push({ name: 'home' })
+      }
     },
     deleteProfile () {
       console.log('DELETE PROFILE')
       // Add Confirmation / Warning
       this.$store.dispatch('deleteProfile', this.uniqueId)
+      // Should this be in the .then() of the response [?]
+      router.push({ name: 'home' })
     }
   }
 }

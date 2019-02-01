@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout v-if="familyMembers.length === 0" text-xs-center wrap>
+    <v-layout v-if="profiles.length === 0" text-xs-center wrap>
       <v-flex xs12>
         <v-img
           :src="require('../assets/logo.svg')"
@@ -12,7 +12,7 @@
     </v-layout>
     <v-layout v-else justify-center>
       <v-flex xs12 lg8>
-        <app-profile v-for="member in familyMembers" :key="member.id" :profile="member"></app-profile>
+        <app-profile v-for="profile in profiles" :key="profile.id" :profile="profile"></app-profile>
       </v-flex>
     </v-layout>
   </v-container>
@@ -26,8 +26,8 @@ export default {
     appProfile: ProfileCard
   },
   computed: {
-    familyMembers () {
-      return this.$store.getters.familyMembers
+    profiles () {
+      return this.$store.getters.profiles
     }
   }
 }

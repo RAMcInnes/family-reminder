@@ -22,8 +22,8 @@
 <script>
 export default {
   name: 'App',
-  data () {
-    return {}
+  created () {
+    this.$store.dispatch('fetchProfiles')
   }
 }
 </script>
