@@ -1,18 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <router-link to="/" tag="span" style="cursor: pointer">Family Reminder</router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn flat>
-        <router-link to="/create" tag="span">Create Profile</router-link>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn flat>
-        <router-link to="/about" tag="span">About</router-link>
-      </v-btn>
-    </v-toolbar>
+    <app-toolbar></app-toolbar>
     <v-content>
       <router-view/>
     </v-content>
@@ -20,8 +8,13 @@
 </template>
 
 <script>
+import Toolbar from './components/Toolbar.vue'
+
 export default {
   name: 'App',
+  components: {
+    appToolbar: Toolbar
+  },
   created () {
     this.$store.dispatch('fetchProfiles')
   }

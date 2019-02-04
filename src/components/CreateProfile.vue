@@ -161,8 +161,6 @@
 </template>
 
 <script>
-import router from '../router'
-
 export default {
   props: {
     profile: {
@@ -300,19 +298,13 @@ export default {
           familyMembers: this.familyMembers,
           notes: this.notes
         }
-        // console.log('profileObj', profileObj)
         this.$store.dispatch('editProfile', profileObj)
         this.$refs.form.resetValidation()
-        // Should this be in the .then() of the response [?]
-        router.push({ name: 'home' })
       }
     },
     deleteProfile () {
-      console.log('DELETE PROFILE')
       // Add Confirmation / Warning
       this.$store.dispatch('deleteProfile', this.uniqueId)
-      // Should this be in the .then() of the response [?]
-      router.push({ name: 'home' })
     }
   }
 }

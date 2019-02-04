@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -77,6 +78,8 @@ export default new Vuex.Store({
         response => {
           console.log('--editProfile--', response)
           commit('editProfile', profile)
+          // Go back to Home page after Edit is made.
+          router.push({ name: 'home' })
         },
         error => {
           console.log(error)
@@ -88,6 +91,8 @@ export default new Vuex.Store({
         response => {
           console.log('--deleteProfile--', response)
           commit('deleteProfile', uniqueId)
+          // Go back to Home page after Delete is made.
+          router.push({ name: 'home' })
         },
         error => {
           console.log(error)

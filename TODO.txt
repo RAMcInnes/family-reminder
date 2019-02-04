@@ -20,27 +20,22 @@ To Do
       - [DONE] Use Image or Initials (if no Image)
     - [DONE] First Name
     - [DONE] Last Name
-
-
-  - lodash uniqueId() problem
-    - server vs. local
-
-  - FetchProfiles
+  - [DONE] FetchProfiles
     - [DONE] GET call (firebase)
     - [DONE] Array update (local)
-  - AddProfile
+  - [DONE] AddProfile
     - [DONE] POST call (firebase)
     - [DONE] Array push (local)
-  - ** EditProfile
+  - [DONE] EditProfile
     - [DONE] PUT call (firebase)
     - [DONE] Array update (local)
-    - Force a reload on page load?
-    - Problem w/ page being updated when routed to
-  - DeleteProfile
+    - [DONE] Force a reload on page load?
+    - [DONE] Problem w/ page being updated when routed to
+      - [DONE] Put route in response (.then()) of async call
+  - [DONE] DeleteProfile
     - [DONE] DELETE call (firebase)
     - [DONE] Array splice (local)
-
-  - ProfileCard
+  - [DONE] ProfileCard
     - [DONE] Fix spacing / look & feel
       - [DONE] Image
       - [DONE] Initials
@@ -69,7 +64,8 @@ To Do
       - [DONE] DELETE: A profile
   - [DONE] Ability to edit Profiles
     - [DONE] Form that is filled out with Profile information already
+  - [DONE] Split out "Toolbar" code from App.vue (create Toolbar.vue)
+
   - Create Sign In Page
     - Create Admin signIn
     - Only Admin will be able to "Create Profile" (and edit/delete Profiles)
-  - Split out "Header" code from App.vue (create Header.vue)
