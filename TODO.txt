@@ -3,9 +3,11 @@ To Do
     - [DONE] Related To:
       - [DONE] Relation | Person
       - [DONE] Relation will be dropdown list
+
       - Person will be text-field that can auto-complete based on other users
         - v-autocomplete
         - Based on list gotten back from 'GET'
+
     - [DONE]"Add Relation" Button
       -[DONE] Button will add row of "Relation | Person"
         - [DONE] Button should be disabled unless Relation AND Person are filled out
@@ -45,16 +47,14 @@ To Do
       - [DONE] On Hover, highlight ProfileCard (using hover property)
     - [DONE] Upon profile creation, create uniqueId for each Profile
       - [DONE] This uniqueId will be used to save them in database as ${uniqueId}.json
-
-  - CreateProfile
+  - [DONE] CreateProfile
     - [DONE] If "profile" (props) !== undefined
       - [DONE] Submit => Edit
         - [DONE] Edit will save new info
           - [DONE] PUT vs POST. FIND THE DIFFERENCE
       - [DONE] Clear => Delete
         - [DONE] Delete will remove entire profile
-        - Add confirmation dialog for this
-
+        - [DONE] Add confirmation dialog for this
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
   - [DONE] Save form info to database (on submit)
     - [DONE] Create Firebase repo

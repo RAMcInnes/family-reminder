@@ -152,7 +152,7 @@
           </div>
           <div v-else>
             <v-btn @click="editProfile()">Edit</v-btn>
-            <v-btn @click="deleteProfile()">Delete</v-btn>
+            <delete-profile-dialog :profile="this.profile"></delete-profile-dialog>
           </div>
         </v-form>
       </v-flex>
@@ -161,6 +161,8 @@
 </template>
 
 <script>
+import DeleteProfileDialog from './DeleteProfileDialog.vue'
+
 export default {
   props: {
     profile: {
@@ -169,6 +171,9 @@ export default {
         return {}
       }
     }
+  },
+  components: {
+    deleteProfileDialog: DeleteProfileDialog
   },
   data () {
     return {
@@ -301,10 +306,6 @@ export default {
         this.$store.dispatch('editProfile', profileObj)
         this.$refs.form.resetValidation()
       }
-    },
-    deleteProfile () {
-      // Add Confirmation / Warning
-      this.$store.dispatch('deleteProfile', this.uniqueId)
     }
   }
 }
