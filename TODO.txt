@@ -5,8 +5,12 @@ To Do
       - [DONE] Relation will be dropdown list
 
       - Person will be text-field that can auto-complete based on other users
-        - v-autocomplete
-        - Based on list gotten back from 'GET'
+        - [DONE] v-autocomplete
+        - [DONE] Based on list gotten back from 'GET'
+        - Make this person a link to their Profile (if they exist)
+          - Loop through list of everyone.
+          - Match ${{firstName}} ${{lastName}}
+          - Each Profile will have link to its own Profile (set router-link to this link)
 
     - [DONE]"Add Relation" Button
       -[DONE] Button will add row of "Relation | Person"
@@ -55,6 +59,14 @@ To Do
       - [DONE] Clear => Delete
         - [DONE] Delete will remove entire profile
         - [DONE] Add confirmation dialog for this
+
+      - When RelationshipList ("In A Relationship", "Engaged", or "Married") is seleted, add another box to add person's Name
+        - Similar to how "RelationPerson" is done now
+
+      - When you click on "Create Profile" and you're already in Create Profile, it should go to a "fresh" page
+        - Each Profile will be its own link? (/profile/uniqueId)
+
+  - [DONE] Fix validation to only show red message over missing filled
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
   - [DONE] Save form info to database (on submit)
     - [DONE] Create Firebase repo

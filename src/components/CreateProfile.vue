@@ -120,14 +120,34 @@
                 :items="relationList"
                 prepend-icon="people"
                 label="Relation"
-                :rules="[v => familyMembers.length > 0 || 'Relation is required']"
+                :rules="[v => (relation !== undefined) || (familyMembers.length > 0) || 'Relation is required']"
               ></v-select>
               <v-text-field
+                v-if="!isProfileEmpty(this.profile)"
                 v-model="relationPerson"
                 prepend-icon="remove"
                 label="Person"
-                :rules="[v => familyMembers.length > 0 || 'Person is required']"
               ></v-text-field>
+              <v-autocomplete
+                v-else
+                v-model="relationPerson"
+                prepend-icon="remove"
+                label="Person"
+                :items="filteredProfiles"
+                :item-text="fullName"
+                :item-value="fullName"
+                :search-input.sync="searchProfile"
+                :rules="[v => (relationPerson !== undefined) || (familyMembers.length > 0) || 'Person is required']"
+                flat
+                hide-no-data
+              >
+                <template slot="selection" slot-scope="data">
+                  {{ data.item.firstName }} {{ data.item.lastName }}
+                </template>
+                <template slot="item" slot-scope="data">
+                  {{ data.item.firstName }} {{ data.item.lastName }}
+                </template>
+              </v-autocomplete>
               <v-btn
                 fab
                 small
@@ -189,6 +209,8 @@ export default {
       occupation: this.profile.occupation,
       relationship: this.profile.relationship,
       relationshipList: ['Single', 'In a Relationship', 'Engaged', 'Married', 'Divorced', 'Widowed'],
+      searchProfile: null,
+      filteredProfiles: [],
       livesIn: this.profile.livesIn,
       relation: this.profile.relation,
       relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece', 'Husband', 'Wife', 'Fiance', 'Boyfriend', 'Girlfriend'],
@@ -200,6 +222,9 @@ export default {
   watch: {
     menu (val) {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
+    },
+    searchProfile (val) {
+      val && val !== this.relationPerson && this.searchAllProfiles(val)
     }
   },
   computed: {
@@ -252,14 +277,26 @@ export default {
         })
       }
     },
+    fullName (profile) {
+      return `${profile.firstName} ${profile.lastName}`
+    },
+    searchAllProfiles (name) {
+      const profiles = this.$store.getters.profiles
+      this.filteredProfiles = profiles.filter(profile => {
+        return ((profile.firstName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
+          ((profile.lastName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
+          (this.fullName(profile).toLowerCase().indexOf((name || '').toLowerCase()) > -1)
+      })
+    },
     submitProfile () {
       if (this.$refs.form.validate()) {
+        // TODO: .trim() all non-undefined values
         var profileObj = {
           uniqueId: '',
           image: this.image,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          nickName: this.nickName,
+          firstName: this.firstName.trim(),
+          lastName: this.lastName.trim(),
+          nickName: this.Nickname,
           gender: this.gender,
           birthDate: this.birthDate,
           occupation: this.occupation,
@@ -268,7 +305,6 @@ export default {
           familyMembers: this.familyMembers,
           notes: this.notes
         }
-        // console.log('profileObj', profileObj)
         this.$store.dispatch('addProfile', profileObj)
         this.clearProfile()
         this.$refs.form.resetValidation()
@@ -284,8 +320,11 @@ export default {
       this.occupation = null
       this.relationship = null
       this.livesIn = null
+      this.relation = null
+      this.relationPerson = null
       this.familyMembers = []
       this.notes = null
+      this.$refs.form.resetValidation()
     },
     editProfile () {
       if (this.$refs.form.validate()) {

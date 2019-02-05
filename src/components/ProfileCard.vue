@@ -15,7 +15,7 @@
                 </v-flex>
                 <v-flex xs8>
                     <v-card-title primary-title>
-                        <div class="nameText">{{profile.lastName}}, {{profile.firstName}}</div>
+                        <div class="nameText">{{displayName}}</div>
                     </v-card-title>
                 </v-flex>
             </v-layout>
@@ -31,6 +31,10 @@ export default {
   computed: {
     initials () {
       return this.profile.firstName.charAt(0) + this.profile.lastName.charAt(0)
+    },
+    displayName () {
+      // If nickName exists, use it. Otherwise, just use firstName
+      return this.profile.nickName ? `${this.profile.lastName}, ${this.profile.nickName}` : `${this.profile.lastName}, ${this.profile.firstName}`
     }
   },
   methods: {
