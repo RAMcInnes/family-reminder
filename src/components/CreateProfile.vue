@@ -26,6 +26,7 @@
       </v-flex>
       <v-flex xs12 lg8>
        <v-form ref=form>
+          <!-- FIRST NAME -->
           <v-text-field
             v-model="firstName"
             prepend-icon="person"
@@ -33,6 +34,8 @@
             :rules="[v => !!v || 'First Name is required']"
             required
           ></v-text-field>
+
+          <!-- LAST NAME -->
           <v-text-field
             v-model="lastName"
             prepend-icon="person"
@@ -40,17 +43,23 @@
             :rules="[v => !!v || 'Last Name is required']"
             required
           ></v-text-field>
+
+          <!-- NICKNAME -->
           <v-text-field
             v-model="nickName"
             prepend-icon="person_outline"
             label="Nickname"
           ></v-text-field>
+
+          <!-- GENDER-->
           <v-select
             v-model="gender"
             :items="genderList"
             prepend-icon="wc"
             label="Gender"
           ></v-select>
+
+          <!-- BIRTHDAY -->
           <v-menu
             ref="menu"
             :close-on-content-click="false"
@@ -76,89 +85,135 @@
               @change="saveBirthday()"
             ></v-date-picker>
           </v-menu>
+
+          <!-- OCCUPATION -->
           <v-text-field
             v-model="occupation"
             prepend-icon="domain"
             label="Occupation"
           ></v-text-field>
-          <v-select
-            v-model="relationship"
-            :items="relationshipList"
-            prepend-icon="favorite"
-            label="Relationship"
-          ></v-select>
+
+          <div style="display:flex">
+            <!-- RELATIONSHIP -->
+            <v-select
+              v-model="relationship"
+              :items="relationshipList"
+              prepend-icon="favorite"
+              label="Relationship"
+            ></v-select>
+
+            <!-- RELATIONSHIP PARTNER -->
+            <div v-if="relationshipCheck">
+              <v-text-field
+                v-if="!isProfileEmpty(this.profile)"
+                v-model="relationshipPerson"
+                prepend-icon="remove"
+                label="Partner"
+              ></v-text-field>
+              <v-combobox
+                v-else
+                v-model="relationshipPerson"
+                prepend-icon="remove"
+                label="Partner"
+                :items="filteredProfiles"
+                :item-text="fullName"
+                :search-input.sync="partnerSearchProfile"
+                flat
+                hide-no-data
+                hide-selected
+                return-object
+              >
+                <template slot="selection" slot-scope="data">
+                  {{ fullName(data.item) }}
+                </template>
+                <template slot="item" slot-scope="data">
+                  {{ fullName(data.item) }}
+                </template>
+              </v-combobox>
+            </div>
+          </div>
+
+          <!-- LIVES IN -->
           <v-text-field
             v-model="livesIn"
             prepend-icon="language"
             label="Lives in (Location)"
           ></v-text-field>
-          <div id="relationsList">
-            <span>Related To</span>
-            <div v-for="(member, index) in familyMembers" :key="member.id" style="display:flex">
-              <v-text-field
-                :value="member.relation"
-                prepend-icon="people_outline"
-                readonly
-              ></v-text-field>
-              <v-text-field
-                :value="member.person"
-                prepend-icon="remove"
-                readonly
-              ></v-text-field>
-              <v-btn
-                fab
-                small
-                color="red"
-                @click="removeFamilyMember(index)"
-              >
-                <v-icon>remove</v-icon>
-              </v-btn>
-            </div>
-            <div style="display:flex">
-              <v-select
-                v-model="relation"
-                :items="relationList"
-                prepend-icon="people"
-                label="Relation"
-                :rules="[v => (relation !== undefined) || (familyMembers.length > 0) || 'Relation is required']"
-              ></v-select>
-              <v-text-field
-                v-if="!isProfileEmpty(this.profile)"
-                v-model="relationPerson"
-                prepend-icon="remove"
-                label="Person"
-              ></v-text-field>
-              <v-autocomplete
-                v-else
-                v-model="relationPerson"
-                prepend-icon="remove"
-                label="Person"
-                :items="filteredProfiles"
-                :item-text="fullName"
-                :item-value="fullName"
-                :search-input.sync="searchProfile"
-                :rules="[v => (relationPerson !== undefined) || (familyMembers.length > 0) || 'Person is required']"
-                flat
-                hide-no-data
-              >
-                <template slot="selection" slot-scope="data">
-                  {{ data.item.firstName }} {{ data.item.lastName }}
-                </template>
-                <template slot="item" slot-scope="data">
-                  {{ data.item.firstName }} {{ data.item.lastName }}
-                </template>
-              </v-autocomplete>
-              <v-btn
-                fab
-                small
-                color="blue"
-                :disabled="isAddFamilyMemberDisabled"
-                @click="addFamilyMember()"
-              >
-                <v-icon>add</v-icon>
-              </v-btn>
-            </div>
+
+          <!-- RELATIONS -->
+          <span>Related To</span>
+          <div v-for="(member, index) in familyMembers" :key="member.id" style="display:flex">
+            <v-text-field
+              :value="member.relation"
+              prepend-icon="people_outline"
+              readonly
+            ></v-text-field>
+            <v-text-field
+              :value="fullName(member.person)"
+              prepend-icon="remove"
+              readonly
+            ></v-text-field>
+            <v-btn
+              fab
+              small
+              color="red"
+              @click="removeFamilyMember(index)"
+            >
+              <v-icon>remove</v-icon>
+            </v-btn>
           </div>
+
+          <!-- (NEW) RELATIONS -->
+          <div style="display:flex">
+            <!-- RELATION -->
+            <v-select
+              v-model="relation"
+              :items="relationList"
+              prepend-icon="people"
+              label="Relation"
+              :rules="[v => (relation !== undefined) || (familyMembers.length > 0) || 'Relation is required']"
+            ></v-select>
+
+            <!-- RELATION PERSON -->
+            <v-text-field
+              v-if="!isProfileEmpty(this.profile)"
+              v-model="relationPerson"
+              prepend-icon="remove"
+              label="Person"
+            ></v-text-field>
+            <v-combobox
+              v-else
+              v-model="relationPerson"
+              prepend-icon="remove"
+              label="Person"
+              :items="filteredProfiles"
+              :item-text="fullName"
+              :search-input.sync="personSearchProfile"
+              :rules="[v => (relationPerson !== undefined) || (familyMembers.length > 0) || 'Person is required']"
+              flat
+              hide-no-data
+              hide-selected
+              return-object
+            >
+              <template slot="selection" slot-scope="data">
+                {{ fullName(data.item) }}
+              </template>
+              <template slot="item" slot-scope="data">
+                {{ fullName(data.item) }}
+              </template>
+            </v-combobox>
+            <v-btn
+              fab
+              small
+              color="blue"
+              :disabled="isAddFamilyMemberDisabled"
+              @click="addFamilyMember()"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+          </div>
+
+          <!-- NOTES -->
           <v-textarea
             v-model="notes"
             auto-grow
@@ -166,6 +221,8 @@
             label="Notes"
             rows="1"
           ></v-textarea>
+
+          <!-- BUTTONS -->
           <div v-if="isProfileEmpty(this.profile)">
             <v-btn @click="submitProfile()">Submit</v-btn>
             <v-btn @click="clearProfile()">Clear</v-btn>
@@ -209,11 +266,13 @@ export default {
       occupation: this.profile.occupation,
       relationship: this.profile.relationship,
       relationshipList: ['Single', 'In a Relationship', 'Engaged', 'Married', 'Divorced', 'Widowed'],
-      searchProfile: null,
+      partnerSearchProfile: null,
+      relationshipPerson: this.profile.relationshipPerson,
       filteredProfiles: [],
       livesIn: this.profile.livesIn,
       relation: this.profile.relation,
       relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece', 'Husband', 'Wife', 'Fiance', 'Boyfriend', 'Girlfriend'],
+      personSearchProfile: null,
       relationPerson: this.profile.relationPerson,
       familyMembers: this.profile.familyMembers || [],
       notes: this.profile.notes
@@ -223,7 +282,10 @@ export default {
     menu (val) {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     },
-    searchProfile (val) {
+    partnerSearchProfile (val) {
+      val && val !== this.relationshipPerson && this.searchAllProfiles(val)
+    },
+    personSearchProfile (val) {
       val && val !== this.relationPerson && this.searchAllProfiles(val)
     }
   },
@@ -231,6 +293,9 @@ export default {
     isAddFamilyMemberDisabled () {
       // Not sure if this is the best way to do this...
       return !(!!this.relation && !!this.relationPerson)
+    },
+    relationshipCheck () {
+      return this.relationship === 'In a Relationship' || this.relationship === 'Engaged' || this.relationship === 'Married'
     }
   },
   methods: {
@@ -278,7 +343,7 @@ export default {
       }
     },
     fullName (profile) {
-      return `${profile.firstName} ${profile.lastName}`
+      return typeof profile === 'object' ? `${profile.firstName} ${profile.lastName}` : profile
     },
     searchAllProfiles (name) {
       const profiles = this.$store.getters.profiles
@@ -301,6 +366,7 @@ export default {
           birthDate: this.birthDate,
           occupation: this.occupation,
           relationship: this.relationship,
+          relationshipPerson: this.relationshipPerson,
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes
@@ -319,6 +385,7 @@ export default {
       this.birthDate = null
       this.occupation = null
       this.relationship = null
+      this.relationshipPerson = null
       this.livesIn = null
       this.relation = null
       this.relationPerson = null
@@ -338,6 +405,7 @@ export default {
           birthDate: this.birthDate,
           occupation: this.occupation,
           relationship: this.relationship,
+          relationshipPerson: this.relationshipPerson,
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes

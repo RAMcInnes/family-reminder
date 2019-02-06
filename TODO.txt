@@ -4,12 +4,12 @@ To Do
       - [DONE] Relation | Person
       - [DONE] Relation will be dropdown list
 
-      - Person will be text-field that can auto-complete based on other users
+      - Person will be text-field that can auto-complete based on other Profiles
         - [DONE] v-autocomplete
+          - [DONE] Use v-combobox instead
         - [DONE] Based on list gotten back from 'GET'
+        - [DONE] Able to add someone who is hasn't created a Profile yet
         - Make this person a link to their Profile (if they exist)
-          - Loop through list of everyone.
-          - Match ${{firstName}} ${{lastName}}
           - Each Profile will have link to its own Profile (set router-link to this link)
 
     - [DONE]"Add Relation" Button
