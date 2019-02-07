@@ -59,12 +59,25 @@ To Do
       - [DONE] Clear => Delete
         - [DONE] Delete will remove entire profile
         - [DONE] Add confirmation dialog for this
-
-      - When RelationshipList ("In A Relationship", "Engaged", or "Married") is seleted, add another box to add person's Name
-        - Similar to how "RelationPerson" is done now
+      - [DONE] When RelationshipList ("In A Relationship", "Engaged", or "Married") is seleted, add another box to add person's Name
+        - [DONE] Similar to how "RelationPerson" is done now
 
       - When you click on "Create Profile" and you're already in Create Profile, it should go to a "fresh" page
-        - Each Profile will be its own link? (/profile/uniqueId)
+        - Each Profile will be its own link (/profile/uniqueId)
+        - Edit will be /edit (same Component as /create)
+
+      - When a familyMember is added using an existing profile, then the existing profile should be updated with the new realtion as well
+        - EX) If Person 1 is Father of Person 2. Then Person 2 is Son/Daughter of Person 1.
+        - Would require Gender field to be filled out in order to auto-create relation. (otherwise it would not)
+        - Would require existing profile to link to.
+        - Relations:
+            - Grandfather / Grandmother <--> Grandson / Granddaughter
+            - Father / Mother <--> Daughter / Son
+            - Brother / Sister <--> Brother / SIster
+            - Cousin <--> Cousin
+            - Uncle / Aunt <--> Nephew / Niece
+            - Husband / Wife <--> Husband / Wife
+            - Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
 
   - [DONE] Fix validation to only show red message over missing filled
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit

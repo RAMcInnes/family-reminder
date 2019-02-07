@@ -23,6 +23,12 @@ const routes = [
   {
     path: '/create',
     name: 'create',
+    component: CreateProfile
+  },
+  {
+    path: '/edit',
+    name: 'edit',
+    // edit will also use the CreateProfile component, but information will be sent to it
     component: CreateProfile,
     props: (route) => ({ ...route.params })
   }

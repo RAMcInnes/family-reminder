@@ -271,7 +271,7 @@ export default {
       filteredProfiles: [],
       livesIn: this.profile.livesIn,
       relation: this.profile.relation,
-      relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece', 'Husband', 'Wife', 'Fiance', 'Boyfriend', 'Girlfriend'],
+      relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Grandson', 'Granddaughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece', 'Husband', 'Wife', 'Boyfriend', 'Girlfriend'],
       personSearchProfile: null,
       relationPerson: this.profile.relationPerson,
       familyMembers: this.profile.familyMembers || [],

@@ -40,7 +40,7 @@ export default {
   methods: {
     goToProfile (profileObj) {
       // Route to CreateProfile.vue w/ profileObj as prop
-      router.push({ name: 'create', params: { profile: profileObj } })
+      router.push({ name: 'edit', params: { profile: profileObj } })
     }
   }
 }
