@@ -199,7 +199,14 @@
                 {{ fullName(data.item) }}
               </template>
               <template slot="item" slot-scope="data">
-                {{ fullName(data.item) }}
+                <div>
+                  <v-img v-if="data.item.image"
+                    :src="data.item.image"
+                    height="45px"
+                    contain
+                  ></v-img>
+                  <div>{{ fullName(data.item) }}</div>
+                </div>
               </template>
             </v-combobox>
             <v-btn
@@ -362,12 +369,12 @@ export default {
           image: this.image,
           firstName: this.firstName.trim(),
           lastName: this.lastName.trim(),
-          nickName: this.Nickname,
+          nickName: this.nickname,
           gender: this.gender,
           birthDate: this.birthDate,
           occupation: this.occupation,
           relationship: this.relationship,
-          relationshipPerson: this.relationshipPerson,
+          relationshipPerson: this.relationshipPerson.uniqueId,
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes
