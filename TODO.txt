@@ -10,7 +10,9 @@ To Do
         - [DONE] Based on list gotten back from 'GET'
         - [DONE] Able to add someone who is hasn't created a Profile yet
         - Make this person a link to their Profile (if they exist)
-          - Each Profile will have link to its own Profile (set router-link to this link)
+        - Profile link (Relation / Relationship)
+          - <router-link :to="{ name: 'profile', params: { profile: profileObj.uniqueId }}">{{profileObj.firstName}} {{profileObj.lastName}}</router-link>
+        - Add Profile Image (if avilable) to v-combobox items
 
     - [DONE]"Add Relation" Button
       -[DONE] Button will add row of "Relation | Person"
@@ -64,20 +66,31 @@ To Do
 
       - When you click on "Create Profile" and you're already in Create Profile, it should go to a "fresh" page
         - Each Profile will be its own link (/profile/uniqueId)
+          - When navigating to /profile/uniqueId the beforeMount will fetch the profile that matches the uniqueId
+            - Store should include action to find profile for given uniqueId
+          - When viewing a profile, no changes should be able to be made.
+          - Do not show any buttons (+ / -)
+          - Everything "disabled" [?]
         - Edit will be /edit (same Component as /create)
 
-      - When a familyMember is added using an existing profile, then the existing profile should be updated with the new realtion as well
+
+
+
+      - When a familyMember is added using an existing profile, then the existing profile should be updated with the new relation as well
         - EX) If Person 1 is Father of Person 2. Then Person 2 is Son/Daughter of Person 1.
         - Would require Gender field to be filled out in order to auto-create relation. (otherwise it would not)
         - Would require existing profile to link to.
         - Relations:
             - Grandfather / Grandmother <--> Grandson / Granddaughter
             - Father / Mother <--> Daughter / Son
-            - Brother / Sister <--> Brother / SIster
+            - Brother / Sister <--> Brother / Sister
             - Cousin <--> Cousin
             - Uncle / Aunt <--> Nephew / Niece
             - Husband / Wife <--> Husband / Wife
             - Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
+
+
+
 
   - [DONE] Fix validation to only show red message over missing filled
   - [DONE] Deal with Validation weirdness for FirstName and LastName when "clearing" after Submit
@@ -90,6 +103,8 @@ To Do
   - [DONE] Ability to edit Profiles
     - [DONE] Form that is filled out with Profile information already
   - [DONE] Split out "Toolbar" code from App.vue (create Toolbar.vue)
+
+  - When screen is very small (xs or sm), remove Image from ProfileCard (just show name)
 
   - Create Sign In Page
     - Create Admin signIn

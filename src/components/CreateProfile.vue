@@ -283,10 +283,10 @@ export default {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     },
     partnerSearchProfile (val) {
-      val && val !== this.relationshipPerson && this.searchAllProfiles(val)
+      val && val !== this.relationshipPerson && this.searchAllProfilesByName(val)
     },
     personSearchProfile (val) {
-      val && val !== this.relationPerson && this.searchAllProfiles(val)
+      val && val !== this.relationPerson && this.searchAllProfilesByName(val)
     }
   },
   computed: {
@@ -331,7 +331,7 @@ export default {
     addFamilyMember () {
       let familyObj = {
         relation: this.relation,
-        person: this.relationPerson
+        profileId: this.relationPerson.uniqueId
       }
       if (!!this.relation && !!this.relationPerson) {
         this.familyMembers.push(familyObj)
@@ -345,7 +345,8 @@ export default {
     fullName (profile) {
       return typeof profile === 'object' ? `${profile.firstName} ${profile.lastName}` : profile
     },
-    searchAllProfiles (name) {
+    // TODO: This should probably be in the "getters" of the store - this.$store.getters.searchAllProfiles(name)
+    searchAllProfilesByName (name) {
       const profiles = this.$store.getters.profiles
       this.filteredProfiles = profiles.filter(profile => {
         return ((profile.firstName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||

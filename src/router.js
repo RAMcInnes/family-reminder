@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from './components/Home.vue'
 import CreateProfile from './components/CreateProfile.vue'
+import PersonProfile from './components/PersonProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,12 @@ const routes = [
     // edit will also use the CreateProfile component, but information will be sent to it
     component: CreateProfile,
     props: (route) => ({ ...route.params })
+  },
+  {
+    path: '/profile/:profileId',
+    name: 'profile',
+    // edit will also use the CreateProfile component, but information will be sent to it
+    component: PersonProfile
   }
 ]
 

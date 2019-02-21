@@ -2,7 +2,7 @@
     <v-container>
         <v-card @click="goToProfile(profile)" color="#659DBD" class="white--text" hover>
             <v-layout justify-center align-center>
-                <v-flex xs4>
+                <v-flex lg4>
                     <v-img v-if="profile.image"
                     :src="profile.image"
                     height="125px"
@@ -13,7 +13,7 @@
                         {{initials}}
                     </div>
                 </v-flex>
-                <v-flex xs8>
+                <v-flex xs12 lg8>
                     <v-card-title primary-title>
                         <div class="nameText">{{displayName}}</div>
                     </v-card-title>
@@ -39,8 +39,8 @@ export default {
   },
   methods: {
     goToProfile (profileObj) {
-      // Route to CreateProfile.vue w/ profileObj as prop
-      router.push({ name: 'edit', params: { profile: profileObj } })
+      // Route to PersonProfile.vue w/ uniqueId
+      router.push({ name: 'profile', params: { profileId: profileObj.uniqueId } })
     }
   }
 }

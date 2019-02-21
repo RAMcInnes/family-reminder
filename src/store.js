@@ -103,6 +103,17 @@ export default new Vuex.Store({
   getters: {
     profiles (state) {
       return state.profiles
+    },
+    getProfileById: (state) => (uniqueId) => {
+      return state.profiles.find(profile => profile.uniqueId === uniqueId)
+    },
+    // TODO: Probably don't need this because it could return multiple profiles (of the same name)
+    getProfileByName: (state, getters) => (fullName) => {
+      let profiles = getters.profiles
+      return profiles.filter(profile => {
+        return ((profile.firstName || '').toLowerCase().indexOf((fullName || '').toLowerCase()) > -1) &&
+          ((profile.lastName || '').toLowerCase().indexOf((fullName || '').toLowerCase()) > -1)
+      })
     }
   }
 })
