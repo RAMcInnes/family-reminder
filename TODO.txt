@@ -114,6 +114,10 @@ To Do
 
 
 
+  - ProfileUtils.js [?] Should have a utilitiy class for all the things you can get from a Profile
+    - fullName()
+    - initials()
+
   - When screen is very small (xs or sm), remove Image from ProfileCard (just show name)
 
   - Create Sign In Page

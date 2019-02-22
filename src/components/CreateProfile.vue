@@ -28,7 +28,7 @@
        <v-form ref=form>
           <!-- FIRST NAME -->
           <v-text-field
-            v-model="firstName"
+            v-model.trim="firstName"
             prepend-icon="person"
             label="First Name"
             :rules="[v => !!v || 'First Name is required']"
@@ -37,7 +37,7 @@
 
           <!-- LAST NAME -->
           <v-text-field
-            v-model="lastName"
+            v-model.trim="lastName"
             prepend-icon="person"
             label="Last Name"
             :rules="[v => !!v || 'Last Name is required']"
@@ -46,7 +46,7 @@
 
           <!-- NICKNAME -->
           <v-text-field
-            v-model="nickName"
+            v-model.trim="nickName"
             prepend-icon="person_outline"
             label="Nickname"
           ></v-text-field>
@@ -88,7 +88,7 @@
 
           <!-- OCCUPATION -->
           <v-text-field
-            v-model="occupation"
+            v-model.trim="occupation"
             prepend-icon="domain"
             label="Occupation"
           ></v-text-field>
@@ -127,7 +127,14 @@
                   {{ fullName(data.item) }}
                 </template>
                 <template slot="item" slot-scope="data">
-                  {{ fullName(data.item) }}
+                  <div>
+                    <v-img v-if="data.item.image"
+                      :src="data.item.image"
+                      height="45px"
+                      contain
+                    ></v-img>
+                    <div>{{ fullName(data.item) }}</div>
+                  </div>
                 </template>
               </v-combobox>
             </div>
@@ -135,7 +142,7 @@
 
           <!-- LIVES IN -->
           <v-text-field
-            v-model="livesIn"
+            v-model.trim="livesIn"
             prepend-icon="language"
             label="Lives in (Location)"
           ></v-text-field>
@@ -222,7 +229,7 @@
 
           <!-- NOTES -->
           <v-textarea
-            v-model="notes"
+            v-model.trim="notes"
             auto-grow
             prepend-icon="description"
             label="Notes"
@@ -363,12 +370,11 @@ export default {
     },
     submitProfile () {
       if (this.$refs.form.validate()) {
-        // TODO: .trim() all non-undefined values
         var profileObj = {
           uniqueId: '',
           image: this.image,
-          firstName: this.firstName.trim(),
-          lastName: this.lastName.trim(),
+          firstName: this.firstName,
+          lastName: this.lastName,
           nickName: this.nickname,
           gender: this.gender,
           birthDate: this.birthDate,
