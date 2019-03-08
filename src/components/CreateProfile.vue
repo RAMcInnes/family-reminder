@@ -100,18 +100,12 @@
               :items="relationshipList"
               prepend-icon="favorite"
               label="Relationship"
+              style="flex: 1 1 auto"
             ></v-select>
 
             <!-- RELATIONSHIP PARTNER -->
-            <div v-if="relationshipCheck">
-              <v-text-field
-                v-if="!isProfileEmpty(this.profile)"
-                v-model="relationshipPerson"
-                prepend-icon="remove"
-                label="Partner"
-              ></v-text-field>
+            <div v-if="relationshipCheck"  style="flex: 1 1 auto">
               <v-combobox
-                v-else
                 v-model="relationshipPerson"
                 prepend-icon="remove"
                 label="Partner"
@@ -154,11 +148,13 @@
               :value="member.relation"
               prepend-icon="people_outline"
               readonly
+              style="flex: 1 1 auto"
             ></v-text-field>
             <v-text-field
               :value="fullName(member.person)"
               prepend-icon="remove"
               readonly
+              style="flex: 1 1 auto"
             ></v-text-field>
             <v-btn
               fab
@@ -181,15 +177,8 @@
               :rules="[v => (relation !== undefined) || (familyMembers.length > 0) || 'Relation is required']"
             ></v-select>
 
-            <!-- RELATION PERSON -->
-            <v-text-field
-              v-if="!isProfileEmpty(this.profile)"
-              v-model="relationPerson"
-              prepend-icon="remove"
-              label="Person"
-            ></v-text-field>
+            <!-- (NEW) RELATION PERSON -->
             <v-combobox
-              v-else
               v-model="relationPerson"
               prepend-icon="remove"
               label="Person"
@@ -237,7 +226,7 @@
           ></v-textarea>
 
           <!-- BUTTONS -->
-          <div v-if="isProfileEmpty(this.profile)">
+          <div v-if="isObjectEmpty(this.profile)">
             <v-btn @click="submitProfile()">Submit</v-btn>
             <v-btn @click="clearProfile()">Clear</v-btn>
           </div>
@@ -313,7 +302,7 @@ export default {
     }
   },
   methods: {
-    isProfileEmpty (obj) {
+    isObjectEmpty (obj) {
       for (var key in obj) {
         if (obj.hasOwnProperty(key)) { return false }
       }
@@ -344,6 +333,7 @@ export default {
     },
     addFamilyMember () {
       let familyObj = {
+        person: this.fullName(this.relationPerson),
         relation: this.relation,
         profileId: this.relationPerson.uniqueId
       }
@@ -357,7 +347,18 @@ export default {
       }
     },
     fullName (profile) {
-      return typeof profile === 'object' ? `${profile.firstName} ${profile.lastName}` : profile
+      if (typeof profile === 'object') {
+        // '.person' will exist on familyMembers and relationshipPerson (both profiles can be found via an id)
+        if (profile.person) {
+          return profile.person
+        } else {
+          // if '.person' doesn't exist, then we are dealing with a full profile, which will have a first and last name
+          return `${profile.firstName} ${profile.lastName}`
+        }
+      } else {
+        // If 'profile' is not an object, then we just want to return the String (which will be the name)
+        return profile
+      }
     },
     // TODO: This should probably be in the "getters" of the store - this.$store.getters.searchAllProfiles(name)
     searchAllProfilesByName (name) {
@@ -380,7 +381,10 @@ export default {
           birthDate: this.birthDate,
           occupation: this.occupation,
           relationship: this.relationship,
-          relationshipPerson: this.relationshipPerson.uniqueId,
+          relationshipPerson: {
+            person: this.fullName(this.relationshipPerson),
+            profileId: this.relationshipPerson ? this.relationshipPerson.uniqueId : undefined
+          },
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes
@@ -419,7 +423,10 @@ export default {
           birthDate: this.birthDate,
           occupation: this.occupation,
           relationship: this.relationship,
-          relationshipPerson: this.relationshipPerson,
+          relationshipPerson: {
+            person: this.fullName(this.relationshipPerson),
+            profileId: this.relationshipPerson ? this.relationshipPerson.uniqueId : undefined
+          },
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes

@@ -15,6 +15,9 @@
           solo
           disabled
         ></v-text-field>
+
+        <!-- TODO: ADD NICKNAME -->
+
         <!-- Gender -->
         <v-text-field
           :value="this.profile.gender"
@@ -44,19 +47,23 @@
           disabled
         ></v-text-field>
         <!-- Relationship -->
-        <v-text-field
-          :value="this.profile.relationship"
-          label="Solo"
-          solo
-          disabled
-        ></v-text-field>
-        <!-- RelationshipPerson -->
-        <v-text-field
-          :value="getProfileById(this.profile.relationshipPerson)"
-          label="Solo"
-          solo
-          disabled
-        ></v-text-field>
+        <div style="display:flex">
+          <v-text-field
+            :value="this.profile.relationship"
+            label="Solo"
+            solo
+            disabled
+          ></v-text-field>
+          <!-- RelationshipPerson -->
+          <div v-if="relationshipCheck">
+            <v-text-field
+              :value="fullName(this.profile.relationshipPerson)"
+              label="Solo"
+              solo
+              disabled
+            ></v-text-field>
+          </div>
+        </div>
         <!-- Family -->
         <div v-for="member in this.profile.familyMembers" :key="member.id" style="display:flex">
           <v-text-field
@@ -109,9 +116,25 @@ export default {
     this.profile = store.getters.getProfileById(to.params.profileId)
     next()
   },
+  computed: {
+    relationshipCheck () {
+      return this.profile.relationship === 'In a Relationship' || this.profile.relationship === 'Engaged' || this.profile.relationship === 'Married'
+    }
+  },
   methods: {
     fullName (profile) {
-      return typeof profile === 'object' ? `${profile.firstName} ${profile.lastName}` : profile
+      if (typeof profile === 'object') {
+        // '.person' will exist on familyMembers and relationshipPerson (both profiles can be found via an id)
+        if (profile.person) {
+          return profile.person
+        } else {
+          // if '.person' doesn't exist, then we are dealing with a full profile, which will have a first and last name
+          return `${profile.firstName} ${profile.lastName}`
+        }
+      } else {
+        // If 'profile' is not an object, then we just want to return the String (which will be the name)
+        return profile
+      }
     },
     getProfileById (profileId) {
       return store.getters.getProfileById(profileId)

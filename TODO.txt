@@ -9,11 +9,19 @@ To Do
           - [DONE] Use v-combobox instead
         - [DONE] Based on list gotten back from 'GET'
         - [DONE] Able to add someone who is hasn't created a Profile yet
+
+
+
+
         - Make this person a link to their Profile (if they exist)
         - Profile link (Relation / Relationship)
           - <router-link :to="{ name: 'profile', params: { profile: profileObj.uniqueId }}">{{profileObj.firstName}} {{profileObj.lastName}}</router-link>
         - Add Profile Image (if avilable) to v-combobox items
           - Get Image and Name to appear on same line
+
+
+
+
 
     - [DONE]"Add Relation" Button
       -[DONE] Button will add row of "Relation | Person"
@@ -75,13 +83,15 @@ To Do
   - [DONE] Ability to edit Profiles
     - [DONE] Form that is filled out with Profile information already
   - [DONE] Split out "Toolbar" code from App.vue (create Toolbar.vue)
+  - [DONE] Why does isProfileEmpty exist for relationshipPerson and relationPerson [?]
+  - [DONE] relationshipPerson and familyMemberObj should NOT contain the profile, just the uniqueId
+    - [DONE] When editting (/edit), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
+    - [DONE] When viewing (/profile), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
 
 
 
 
-  - relationshipPerson and familyMemberObj should NOT contain the profile, just the uniqueId
-    - When editting (/edit), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
-    - When viewing (/profile), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
+  - Nickname is removed somewhere
 
 
 
@@ -110,6 +120,14 @@ To Do
         - Uncle / Aunt <--> Nephew / Niece
         - Husband / Wife <--> Husband / Wife
         - Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
+
+
+
+
+  - Create a "filter" on the main page that can filter through all of the existing Profiles
+    - Dropdown vs Text Search
+      - Text Search would work exactly like "searchAllProfilesByName()"
+      - Dropdown would filter by... Relation? Gender? Relationship?
 
 
 
