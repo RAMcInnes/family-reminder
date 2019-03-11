@@ -4,6 +4,7 @@
       <v-flex>
         <!-- Image -->
         <v-img
+          v-if="this.profile.image"
           :src="this.profile.image"
           height="300px"
           contain
@@ -11,7 +12,8 @@
         <!-- Full Name -->
         <v-text-field
           :value="fullName(this.profile)"
-          label="Solo"
+          prepend-icon="person"
+          label="FullName"
           solo
           disabled
         ></v-text-field>
@@ -20,37 +22,47 @@
 
         <!-- Gender -->
         <v-text-field
+          v-if="this.profile.gender"
           :value="this.profile.gender"
-          label="Solo"
+          prepend-icon="wc"
+          label="Gender"
           solo
           disabled
         ></v-text-field>
         <!-- Birthday -->
         <v-text-field
+          v-if="this.profile.birthDate"
           :value="this.profile.birthDate"
-          label="Solo"
+          prepend-icon="cake"
+          label="Birthday"
           solo
           disabled
         ></v-text-field>
         <!-- Occupation -->
         <v-text-field
+          v-if="this.profile.occupation"
           :value="this.profile.occupation"
-          label="Solo"
+          prepend-icon="domain"
+          label="Occupation"
           solo
           disabled
         ></v-text-field>
         <!-- Lives In -->
         <v-text-field
+          v-if="this.profile.livesIn"
           :value="this.profile.livesIn"
-          label="Solo"
+          prepend-icon="language"
+          label="HomeLocation"
           solo
           disabled
         ></v-text-field>
         <!-- Relationship -->
         <div style="display:flex">
           <v-text-field
+            v-if="this.profile.relationship"
             :value="this.profile.relationship"
-            label="Solo"
+            prepend-icon="favorite"
+            label="Partner"
             solo
             disabled
           ></v-text-field>
@@ -58,7 +70,7 @@
           <div v-if="relationshipCheck">
             <v-text-field
               :value="fullName(this.profile.relationshipPerson)"
-              label="Solo"
+              prepend-icon="remove"
               solo
               disabled
             ></v-text-field>
@@ -69,18 +81,22 @@
           <v-text-field
             :value="member.relation"
             prepend-icon="people_outline"
-            readonly
+            solo
+            disabled
           ></v-text-field>
           <v-text-field
             :value="fullName(member.person)"
             prepend-icon="remove"
-            readonly
+            solo
+            disabled
           ></v-text-field>
         </div>
         <!-- Notes -->
         <v-text-field
+          v-if="this.profile.notes"
           :value="this.profile.notes"
-          label="Solo"
+          prepend-icon="description"
+          label="Notes"
           solo
           disabled
         ></v-text-field>

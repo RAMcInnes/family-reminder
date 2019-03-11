@@ -87,11 +87,7 @@ To Do
   - [DONE] relationshipPerson and familyMemberObj should NOT contain the profile, just the uniqueId
     - [DONE] When editting (/edit), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
     - [DONE] When viewing (/profile), these values should be retreived through computed or methods ($store.getters.getProfileById(___))
-
-
-
-
-  - Nickname is removed somewhere
+  - [DONE] Nickname is removed somewhere
 
 
 
@@ -128,7 +124,6 @@ To Do
     - Dropdown vs Text Search
       - Text Search would work exactly like "searchAllProfilesByName()"
       - Dropdown would filter by... Relation? Gender? Relationship?
-
 
 
 

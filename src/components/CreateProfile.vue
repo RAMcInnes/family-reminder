@@ -138,7 +138,7 @@
           <v-text-field
             v-model.trim="livesIn"
             prepend-icon="language"
-            label="Lives in (Location)"
+            label="HomeLocation"
           ></v-text-field>
 
           <!-- RELATIONS -->
@@ -376,7 +376,7 @@ export default {
           image: this.image,
           firstName: this.firstName,
           lastName: this.lastName,
-          nickName: this.nickname,
+          nickName: this.nickName,
           gender: this.gender,
           birthDate: this.birthDate,
           occupation: this.occupation,
