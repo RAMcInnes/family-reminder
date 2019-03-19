@@ -255,6 +255,12 @@ export default {
   components: {
     deleteProfileDialog: DeleteProfileDialog
   },
+  beforeUpdate () {
+    // When going from Edit -> Create Profile, the profile needs to be wiped
+    if (this.isObjectEmpty(this.profile)) {
+      this.clearProfile()
+    }
+  },
   data () {
     return {
       uniqueId: this.profile.uniqueId,

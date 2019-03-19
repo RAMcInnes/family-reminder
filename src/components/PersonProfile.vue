@@ -67,14 +67,14 @@
             disabled
           ></v-text-field>
           <!-- RelationshipPerson -->
-          <div v-if="relationshipCheck">
+            <app-profile v-if="relationPersonUniqueIdExists" :profile="getProfileById(this.profile.relationshipPerson.profileId)"></app-profile>
             <v-text-field
-              :value="fullName(this.profile.relationshipPerson)"
+              v-else-if="relationshipCheck"
+              :value="fullName(this.profile.relationshipPerson.person)"
               prepend-icon="remove"
               solo
               disabled
             ></v-text-field>
-          </div>
         </div>
         <!-- Family -->
         <div v-for="member in this.profile.familyMembers" :key="member.id" style="display:flex">
@@ -84,7 +84,9 @@
             solo
             disabled
           ></v-text-field>
+          <app-profile v-if="member.profileId" :profile="getProfileById(member.profileId)"></app-profile>
           <v-text-field
+            v-else
             :value="fullName(member.person)"
             prepend-icon="remove"
             solo
@@ -110,8 +112,12 @@
 <script>
 import store from '../store'
 import router from '../router'
+import ProfileCard from './ProfileCardProfile'
 
 export default {
+  components: {
+    appProfile: ProfileCard
+  },
   data () {
     return {
       profile: {}
@@ -135,6 +141,9 @@ export default {
   computed: {
     relationshipCheck () {
       return this.profile.relationship === 'In a Relationship' || this.profile.relationship === 'Engaged' || this.profile.relationship === 'Married'
+    },
+    relationPersonUniqueIdExists () {
+      return ((this.profile.relationshipPerson) && (this.profile.relationshipPerson.profileId))
     }
   },
   methods: {
