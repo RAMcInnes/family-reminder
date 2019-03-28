@@ -112,7 +112,7 @@
 <script>
 import store from '../store'
 import router from '../router'
-import ProfileCard from './ProfileCardProfile'
+import ProfileCard from './ProfileCardMini'
 
 export default {
   components: {

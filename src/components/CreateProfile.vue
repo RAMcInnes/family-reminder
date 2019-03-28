@@ -280,7 +280,7 @@ export default {
       filteredProfiles: [],
       livesIn: this.profile.livesIn,
       relation: this.profile.relation,
-      relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Grandson', 'Granddaughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece', 'Husband', 'Wife', 'Boyfriend', 'Girlfriend'],
+      relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Grandson', 'Granddaughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece'],
       personSearchProfile: null,
       relationPerson: this.profile.relationPerson,
       familyMembers: this.profile.familyMembers || [],
@@ -309,20 +309,20 @@ export default {
   },
   methods: {
     isObjectEmpty (obj) {
-      for (var key in obj) {
+      for (let key in obj) {
         if (obj.hasOwnProperty(key)) { return false }
       }
       return true
     },
     changeImage (e) {
-      var files = e.target.files || e.dataTransfer.files
+      let files = e.target.files || e.dataTransfer.files
       if (!files.length) {
         return
       }
       this.createImage(files[0])
     },
     createImage (file) {
-      var reader = new FileReader()
+      let reader = new FileReader()
       reader.onload = (e) => {
         this.image = e.target.result
       }
@@ -375,9 +375,33 @@ export default {
           (this.fullName(profile).toLowerCase().indexOf((name || '').toLowerCase()) > -1)
       })
     },
+    createFamilyMemberObj (person, relation, profileId) {
+      return {
+        person: person,
+        relation: relation,
+        profileId: profileId
+      }
+    },
+    addFamilyRelationToProfiles () {
+      for (let member in this.familyMembers) {
+        let profile = this.$store.getters.getProfileById(member.profileId)
+        if (profile) {
+          if (this.gender === 'Male') {
+            switch (member.relation) {
+              case 'Grandfather':
+                let familyObj = this.createFamilyMemberObj(`${this.firstName} ${this.lastName}`, 'Grandson', this.uniqueId)
+                profile.familyMembers.push(familyObj)
+            }
+          }
+          // else if (this.gender === 'Female') {
+
+          // }
+        }
+      }
+    },
     submitProfile () {
       if (this.$refs.form.validate()) {
-        var profileObj = {
+        let profileObj = {
           uniqueId: '',
           image: this.image,
           firstName: this.firstName,
@@ -394,6 +418,13 @@ export default {
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes
+        }
+        // Can only add corresponding relation(ship) if gender is defined. (Don't want to assume anything)
+        if (this.gender) {
+          // For each family member, add the corresponding relation.
+          this.addFamilyRelationToProfiles()
+          // For relationship, add the corresponding relationship
+          this.addRelationshipToProfile()
         }
         this.$store.dispatch('addProfile', profileObj)
         this.clearProfile()
@@ -419,7 +450,7 @@ export default {
     },
     editProfile () {
       if (this.$refs.form.validate()) {
-        var profileObj = {
+        let profileObj = {
           uniqueId: this.uniqueId,
           image: this.image,
           firstName: this.firstName,
