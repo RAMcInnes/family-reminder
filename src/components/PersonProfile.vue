@@ -126,15 +126,15 @@ export default {
   // Used when going from ProfileCard -> PersonProfile
   beforeRouteEnter (to, from, next) {
     next(vm => {
-      console.log('ENTER to', to)
-      console.log('ENTER from', from)
+      console.log('PROFILE - ENTER to', to)
+      console.log('PROFILE - ENTER from', from)
       vm.profile = store.getters.getProfileById(to.params.profileId)
     })
   },
   // Used when going from PersonProfile -> PersonProfile
   beforeRouteUpdate (to, from, next) {
-    console.log('UPDATE to', to)
-    console.log('UPDATE from', from)
+    console.log('PROFILE - UPDATE to', to)
+    console.log('PROFILE - UPDATE from', from)
     this.profile = store.getters.getProfileById(to.params.profileId)
     next()
   },

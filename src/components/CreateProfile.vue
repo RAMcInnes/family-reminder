@@ -138,7 +138,7 @@
           <v-text-field
             v-model.trim="livesIn"
             prepend-icon="language"
-            label="HomeLocation"
+            label="Home Location"
           ></v-text-field>
 
           <!-- RELATIONS -->
@@ -174,7 +174,7 @@
               :items="relationList"
               prepend-icon="people"
               label="Relation"
-              :rules="[v => (relation !== undefined) || (familyMembers.length > 0) || 'Relation is required']"
+              :rules="[v => (!!relation) || (familyMembers.length > 0) || 'Relation is required']"
             ></v-select>
 
             <!-- (NEW) RELATION PERSON -->
@@ -185,7 +185,7 @@
               :items="filteredProfiles"
               :item-text="fullName"
               :search-input.sync="personSearchProfile"
-              :rules="[v => (relationPerson !== undefined) || (familyMembers.length > 0) || 'Person is required']"
+              :rules="[v => (!!relationPerson) || (familyMembers.length > 0) || 'Person is required']"
               flat
               hide-no-data
               hide-selected
@@ -255,11 +255,23 @@ export default {
   components: {
     deleteProfileDialog: DeleteProfileDialog
   },
-  beforeUpdate () {
-    // When going from Edit -> Create Profile, the profile needs to be wiped
-    if (this.isObjectEmpty(this.profile)) {
-      this.clearProfile()
+  beforeRouteEnter (to, from, next) {
+    console.log('CREATE/EDIT - ENTER to', to)
+    console.log('CREATE/EDIT - ENTER from', from)
+    if (to.name === 'create' && from.name === 'edit') {
+      // When going from Edit -> Create Profile, the profile needs to be wiped
+      next(vm => vm.clearProfile())
     }
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('CREATE/EDIT - LEAVE to', to)
+    console.log('CREATE/EDIT - LEAVE from', from)
+    if (from.name === 'create' || from.name === 'edit') {
+      // Add a dialog for "are you sure you wish to leave this page"
+      next()
+    }
+    next()
   },
   data () {
     return {
