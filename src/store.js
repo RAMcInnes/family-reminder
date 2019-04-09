@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
 
+import FamilyRelationMap from './utilities/FamilyRelationMap.js'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -64,6 +66,8 @@ export default new Vuex.Store({
           // Create uniqueId for each profile based on one provided by Firebase
           profile.uniqueId = response.body.name
           commit('addProfile', profile)
+          // Auto-populate family memeber relations in other profiles
+          dispatch('populateFamilyRelations', profile)
           // Adds "uniqueId" to DB
           // TODO: Find better way of doing this as this way is redundant / has an extra call
           dispatch('editProfile', profile)
@@ -98,6 +102,20 @@ export default new Vuex.Store({
           console.log(error)
         }
       )
+    },
+    populateFamilyRelations ({ commit, dispatch, getters }, profile) {
+      for (let member of profile.familyMembers) {
+        let memberProfile = getters.getProfileById(member.profileId)
+        if (memberProfile) {
+          let familyObj = {
+            person: `${profile.firstName} ${profile.lastName}`,
+            relation: FamilyRelationMap[member.relation][profile.gender],
+            profileId: `${profile.uniqueId}`
+          }
+          memberProfile.familyMembers.push(familyObj)
+          dispatch('editProfile', memberProfile)
+        }
+      }
     }
   },
   getters: {

@@ -256,8 +256,10 @@ export default {
     deleteProfileDialog: DeleteProfileDialog
   },
   beforeRouteEnter (to, from, next) {
-    console.log('CREATE/EDIT - ENTER to', to)
-    console.log('CREATE/EDIT - ENTER from', from)
+    console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
+    console.log(`${to.name.toUpperCase()} - ENTER to`, to)
+    console.log(`${to.name.toUpperCase()} - ENTER from`, from)
+    console.log(`----------`)
     if (to.name === 'create' && from.name === 'edit') {
       // When going from Edit -> Create Profile, the profile needs to be wiped
       next(vm => vm.clearProfile())
@@ -265,8 +267,10 @@ export default {
     next()
   },
   beforeRouteLeave (to, from, next) {
-    console.log('CREATE/EDIT - LEAVE to', to)
-    console.log('CREATE/EDIT - LEAVE from', from)
+    console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
+    console.log(`${from.name.toUpperCase()} - LEAVE from`, from)
+    console.log(`${from.name.toUpperCase()} - LEAVE to`, to)
+    console.log(`----------`)
     if (from.name === 'create' || from.name === 'edit') {
       // Add a dialog for "are you sure you wish to leave this page"
       next()
@@ -387,30 +391,6 @@ export default {
           (this.fullName(profile).toLowerCase().indexOf((name || '').toLowerCase()) > -1)
       })
     },
-    createFamilyMemberObj (person, relation, profileId) {
-      return {
-        person: person,
-        relation: relation,
-        profileId: profileId
-      }
-    },
-    addFamilyRelationToProfiles () {
-      for (let member in this.familyMembers) {
-        let profile = this.$store.getters.getProfileById(member.profileId)
-        if (profile) {
-          if (this.gender === 'Male') {
-            switch (member.relation) {
-              case 'Grandfather':
-                let familyObj = this.createFamilyMemberObj(`${this.firstName} ${this.lastName}`, 'Grandson', this.uniqueId)
-                profile.familyMembers.push(familyObj)
-            }
-          }
-          // else if (this.gender === 'Female') {
-
-          // }
-        }
-      }
-    },
     submitProfile () {
       if (this.$refs.form.validate()) {
         let profileObj = {
@@ -432,12 +412,12 @@ export default {
           notes: this.notes
         }
         // Can only add corresponding relation(ship) if gender is defined. (Don't want to assume anything)
-        if (this.gender) {
-          // For each family member, add the corresponding relation.
-          this.addFamilyRelationToProfiles()
-          // For relationship, add the corresponding relationship
-          this.addRelationshipToProfile()
-        }
+        // if (this.gender) {
+        // For each family member, add the corresponding relation.
+        // this.$store.dispatch('populateFamilyRelations', profileObj)
+        // For relationship, add the corresponding relationship
+        // this.addRelationshipToProfile()
+        // }
         this.$store.dispatch('addProfile', profileObj)
         this.clearProfile()
         this.$refs.form.resetValidation()

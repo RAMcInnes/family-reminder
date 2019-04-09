@@ -99,16 +99,17 @@ To Do
 
 
 
-  - When a familyMember is added using an existing profile, then the existing profile should be updated with the new relation as well
-    - EX) If Person 1 is Father of Person 2. Then Person 2 is Son/Daughter of Person 1.
-    - Would require Gender field to be filled out in order to auto-create relation. (otherwise it would not)
-    - Would require existing profile to link to.
-    - Relations:
-        - Grandfather / Grandmother <--> Grandson / Granddaughter
-        - Father / Mother <--> Daughter / Son
-        - Brother / Sister <--> Brother / Sister
-        - Cousin <--> Cousin
-        - Uncle / Aunt <--> Nephew / Niece
+  - [DONE] When a familyMember is added using an existing profile, then the existing profile should be updated with the new relation as well
+    - [DONE] EX) If Person 1 is Father of Person 2. Then Person 2 is Son/Daughter of Person 1.
+    - [DONE] Would require Gender field to be filled out in order to auto-create relation. (otherwise it would not)
+    - [DONE] Would require existing profile to link to.
+    - [DONE] Relations:
+        - [DONE] Grandfather / Grandmother <--> Grandson / Granddaughter
+        - [DONE] Father / Mother <--> Daughter / Son
+        - [DONE] Brother / Sister <--> Brother / Sister
+        - [DONE] Cousin <--> Cousin
+        - [DONE] Uncle / Aunt <--> Nephew / Niece
+        - [DONE]  Gender neutral relatinos too (Grandparent, Grandchild, Parent, Child, Sibling, Nibling)
     - Relationships:
         - Husband / Wife <--> Husband / Wife
         - Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
