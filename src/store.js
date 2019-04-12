@@ -66,11 +66,13 @@ export default new Vuex.Store({
           // Create uniqueId for each profile based on one provided by Firebase
           profile.uniqueId = response.body.name
           commit('addProfile', profile)
-          // Auto-populate family memeber relations in other profiles
+          // Auto-populate family memeber relations in other Profiles
           dispatch('populateFamilyRelations', profile)
+          // Auto-populate relationship in other Profile
+          dispatch('populateRelationship', profile)
           // Adds "uniqueId" to DB
-          // TODO: Find better way of doing this as this way is redundant / has an extra call
           dispatch('editProfile', profile)
+          // TODO: Find better way of doing this as this way is redundant / has an extra call
         },
         error => {
           console.log(error)
@@ -104,9 +106,12 @@ export default new Vuex.Store({
       )
     },
     populateFamilyRelations ({ commit, dispatch, getters }, profile) {
+      // Loop through each familyMemeber
       for (let member of profile.familyMembers) {
+        // Get Profile of familyMemeber
         let memberProfile = getters.getProfileById(member.profileId)
         if (memberProfile) {
+          // Create a new familyObj that contains the relation to 'profile'
           let familyObj = {
             person: `${profile.firstName} ${profile.lastName}`,
             relation: FamilyRelationMap[member.relation][profile.gender],
@@ -114,6 +119,22 @@ export default new Vuex.Store({
           }
           memberProfile.familyMembers.push(familyObj)
           dispatch('editProfile', memberProfile)
+        }
+      }
+    },
+    populateRelationship ({ commit, dispatch, getters }, profile) {
+      // Only do this for  relationships that make sense
+      if (profile.relationship === 'In a Relationship' || profile.relationship === 'Engaged' || profile.relationship === 'Married') {
+        // Get Profile of relationshipPerson
+        let relationshipProfile = getters.getProfileById(profile.relationshipPerson.profileId)
+        if (relationshipProfile) {
+          // Their relationship would be the same as yours
+          relationshipProfile.relationship = profile.relationship
+          relationshipProfile.relationshipPerson = {
+            person: `${profile.firstName} ${profile.lastName}`,
+            profileId: `${profile.uniqueId}`
+          }
+          dispatch('editProfile', relationshipProfile)
         }
       }
     }

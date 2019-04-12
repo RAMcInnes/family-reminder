@@ -15,7 +15,9 @@ To Do
           - [DONE] Create another class ProfileCardProfile.vue (vs ProfileCardHome)
             - [DONE] Copy of ProfileCardHome but with different CSS.
         - [DONE] Add Profile Image (if avilable) to v-combobox items
+
           - Get Image and Name to appear on same line
+
     - [DONE]"Add Relation" Button
       -[DONE] Button will add row of "Relation | Person"
         - [DONE] Button should be disabled unless Relation AND Person are filled out
@@ -89,16 +91,6 @@ To Do
       - [DONE] Do not show any buttons (+ / -)
       - [DONE] Everything "disabled" [?]
     - [DONE] Edit will be /edit (same Component as /create)
-
-
-
-
-  - Check for errors when going between Create -> Profile -> Edit -> Profile -> Delete -> Home -> ETC...
-    - Will need to recreate the Profiles at some point
-
-
-
-
   - [DONE] When a familyMember is added using an existing profile, then the existing profile should be updated with the new relation as well
     - [DONE] EX) If Person 1 is Father of Person 2. Then Person 2 is Son/Daughter of Person 1.
     - [DONE] Would require Gender field to be filled out in order to auto-create relation. (otherwise it would not)
@@ -110,9 +102,16 @@ To Do
         - [DONE] Cousin <--> Cousin
         - [DONE] Uncle / Aunt <--> Nephew / Niece
         - [DONE]  Gender neutral relatinos too (Grandparent, Grandchild, Parent, Child, Sibling, Nibling)
-    - Relationships:
-        - Husband / Wife <--> Husband / Wife
-        - Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
+    - [Done] Relationships:
+        - [Needed?] Husband / Wife <--> Husband / Wife
+        - [Needed?] Boyfriend / Girlfriend <--> Boyfriend / Girlfriend
+  - [DONE] Check for errors when going between Create -> Profile -> Edit -> Profile -> Delete -> Home -> ETC...
+    - [DONE] Will need to recreate the Profiles at some point
+
+
+
+
+  - When Profile is deleted, all profiles it is linked to should get updated (profile removed).
 
 
 

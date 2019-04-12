@@ -296,7 +296,7 @@ export default {
       filteredProfiles: [],
       livesIn: this.profile.livesIn,
       relation: this.profile.relation,
-      relationList: ['Grandfather', 'Grandmother', 'Father', 'Mother', 'Brother', 'Sister', 'Son', 'Daughter', 'Grandson', 'Granddaughter', 'Uncle', 'Aunt', 'Cousin', 'Nephew', 'Niece'],
+      relationList: ['Grandfather', 'Grandmother', 'Grandparent', 'Father', 'Mother', 'Parent', 'Uncle', 'Aunt', 'Brother', 'Sister', 'Sibling', 'Son', 'Daughter', 'Child', 'Cousin', 'Nephew', 'Niece', 'Nibling', 'Grandson', 'Granddaughter', 'Grandchild'],
       personSearchProfile: null,
       relationPerson: this.profile.relationPerson,
       familyMembers: this.profile.familyMembers || [],
@@ -369,7 +369,8 @@ export default {
       }
     },
     fullName (profile) {
-      if (typeof profile === 'object') {
+      // Apparently null is of type Object
+      if (typeof profile === 'object' && profile !== null) {
         // '.person' will exist on familyMembers and relationshipPerson (both profiles can be found via an id)
         if (profile.person) {
           return profile.person
@@ -411,13 +412,7 @@ export default {
           familyMembers: this.familyMembers,
           notes: this.notes
         }
-        // Can only add corresponding relation(ship) if gender is defined. (Don't want to assume anything)
-        // if (this.gender) {
-        // For each family member, add the corresponding relation.
-        // this.$store.dispatch('populateFamilyRelations', profileObj)
-        // For relationship, add the corresponding relationship
-        // this.addRelationshipToProfile()
-        // }
+
         this.$store.dispatch('addProfile', profileObj)
         this.clearProfile()
         this.$refs.form.resetValidation()
