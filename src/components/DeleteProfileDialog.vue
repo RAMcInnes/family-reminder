@@ -18,8 +18,7 @@ export default {
   props: ['profile'],
   data () {
     return {
-      dialog: false,
-      uniqueId: this.profile.uniqueId
+      dialog: false
     }
   },
   methods: {
@@ -27,8 +26,36 @@ export default {
       this.dialog = false
     },
     deleteProfile () {
-      this.$store.dispatch('deleteProfile', this.uniqueId)
+      this.deleteProfileFromRelationship(this.profile)
+      this.deleteProfileFromFamily(this.profile)
+      this.$store.dispatch('deleteProfile', this.profile)
       this.dialog = false
+    },
+    deleteProfileFromRelationship (profile) {
+      let relationship = profile.relationshipPerson
+      if (relationship.profileId) {
+        let relationshipProfile = this.$store.getters.getProfileById(relationship.profileId)
+        relationshipProfile.relationshipPerson = null
+        relationshipProfile.relationship = null
+        this.$store.dispatch('editProfile', relationshipProfile)
+      }
+    },
+    deleteProfileFromFamily (profile) {
+      let familyMembers = profile.familyMembers
+      for (let member of familyMembers) {
+        // If a profileId exists, then a profile of that person exists.
+        if (member.profileId) {
+          let memberProfile = this.$store.getters.getProfileById(member.profileId)
+          let memberFamilyMembers = memberProfile.familyMembers
+          // Loop through all of the familyMembers and find that one that matches the deleted profile.
+          memberFamilyMembers.forEach((fm, index) => {
+            if (fm.profileId === this.profile.uniqueId) {
+              memberFamilyMembers.splice(index, 1)
+              this.$store.dispatch('editProfile', memberProfile)
+            }
+          })
+        }
+      }
     }
   }
 }

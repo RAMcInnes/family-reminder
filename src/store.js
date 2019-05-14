@@ -92,11 +92,11 @@ export default new Vuex.Store({
         }
       )
     },
-    deleteProfile ({ commit }, uniqueId) {
-      Vue.http.delete(`profiles/${uniqueId}.json`).then(
+    deleteProfile ({ commit }, profile) {
+      Vue.http.delete(`profiles/${profile.uniqueId}.json`).then(
         response => {
           console.log('--deleteProfile--', response)
-          commit('deleteProfile', uniqueId)
+          commit('deleteProfile', profile.uniqueId)
           // Go back to Home page after Delete is made.
           router.push({ name: 'home' })
         },
@@ -110,11 +110,13 @@ export default new Vuex.Store({
       for (let member of profile.familyMembers) {
         // Get Profile of familyMemeber
         let memberProfile = getters.getProfileById(member.profileId)
+        // If gender is not provided, then use the "Other" naming
+        let gender = profile.gender || 'Other'
         if (memberProfile) {
           // Create a new familyObj that contains the relation to 'profile'
           let familyObj = {
             person: `${profile.firstName} ${profile.lastName}`,
-            relation: FamilyRelationMap[member.relation][profile.gender],
+            relation: FamilyRelationMap[member.relation][gender],
             profileId: `${profile.uniqueId}`
           }
           memberProfile.familyMembers.push(familyObj)
