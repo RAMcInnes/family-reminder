@@ -42,7 +42,7 @@ export default new Vuex.Store({
     fetchProfiles ({ commit }) {
       Vue.http.get('profiles.json').then(
         response => {
-          console.log('--fetchProfiles--', response)
+          // console.log('--fetchProfiles--', response)
           let profiles = response.body
           let fetchedProfiles = []
           for (let uniqueId in profiles) {
@@ -55,14 +55,14 @@ export default new Vuex.Store({
           commit('setProfiles', fetchedProfiles)
         },
         error => {
-          console.log(error)
+          console.error(error)
         }
       )
     },
     addProfile ({ commit, dispatch }, profile) {
       Vue.http.post(`profiles.json`, profile).then(
         response => {
-          console.log('--addProfile--', response)
+          // console.log('--addProfile--', response)
           // Create uniqueId for each profile based on one provided by Firebase
           profile.uniqueId = response.body.name
           commit('addProfile', profile)
@@ -75,33 +75,33 @@ export default new Vuex.Store({
           // TODO: Find better way of doing this as this way is redundant / has an extra call
         },
         error => {
-          console.log(error)
+          console.error(error)
         }
       )
     },
     editProfile ({ commit }, profile) {
       Vue.http.put(`profiles/${profile.uniqueId}.json`, profile).then(
         response => {
-          console.log('--editProfile--', response)
+          // console.log('--editProfile--', response)
           commit('editProfile', profile)
           // Go back to Home page after Edit is made.
           router.push({ name: 'home' })
         },
         error => {
-          console.log(error)
+          console.error(error)
         }
       )
     },
     deleteProfile ({ commit }, profile) {
       Vue.http.delete(`profiles/${profile.uniqueId}.json`).then(
         response => {
-          console.log('--deleteProfile--', response)
+          // console.log('--deleteProfile--', response)
           commit('deleteProfile', profile.uniqueId)
           // Go back to Home page after Delete is made.
           router.push({ name: 'home' })
         },
         error => {
-          console.log(error)
+          console.error(error)
         }
       )
     },

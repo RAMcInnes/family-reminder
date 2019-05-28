@@ -256,10 +256,10 @@ export default {
     deleteProfileDialog: DeleteProfileDialog
   },
   beforeRouteEnter (to, from, next) {
-    console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
-    console.log(`${to.name.toUpperCase()} - ENTER to`, to)
-    console.log(`${to.name.toUpperCase()} - ENTER from`, from)
-    console.log(`----------`)
+    // console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
+    // console.log(`${to.name.toUpperCase()} - ENTER to`, to)
+    // console.log(`${to.name.toUpperCase()} - ENTER from`, from)
+    // console.log(`----------`)
     if (to.name === 'create' && from.name === 'edit') {
       // When going from Edit -> Create Profile, the profile needs to be wiped
       next(vm => vm.clearProfile())
@@ -267,10 +267,10 @@ export default {
     next()
   },
   beforeRouteLeave (to, from, next) {
-    console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
-    console.log(`${from.name.toUpperCase()} - LEAVE from`, from)
-    console.log(`${from.name.toUpperCase()} - LEAVE to`, to)
-    console.log(`----------`)
+    // console.log(`${from.name.toUpperCase()} -> ${to.name.toUpperCase()}`)
+    // console.log(`${from.name.toUpperCase()} - LEAVE from`, from)
+    // console.log(`${from.name.toUpperCase()} - LEAVE to`, to)
+    // console.log(`----------`)
     if (from.name === 'create' || from.name === 'edit') {
       // Add a dialog for "are you sure you wish to leave this page"
       next()
@@ -452,18 +452,23 @@ export default {
           relationship: this.relationship,
           relationshipPerson: {
             person: this.fullName(this.relationshipPerson),
-            profileId: this.relationshipPerson ? this.relationshipPerson.uniqueId : undefined
+            profileId: this.relationshipPerson.profileId ? this.relationshipPerson.profileId : this.relationshipPerson.uniqueId
           },
           livesIn: this.livesIn,
           familyMembers: this.familyMembers,
           notes: this.notes
         }
+
         // Delete family remember relation in other Profile (if applicable)
         this.$store.dispatch('removeFamilyRelations', { profile: profileObj, profilesToDelete: this.removedFamilyMembers })
         // Auto-populate family memeber relations in other Profiles
         this.$store.dispatch('populateFamilyRelations', profileObj)
         // Auto-populate relationship in other Profile
         this.$store.dispatch('populateRelationship', profileObj)
+        // If the person is single, then no relationship should be "stored" with them
+        if (!this.relationshipCheck) {
+          profileObj.relationshipPerson = null
+        }
         this.$store.dispatch('editProfile', profileObj)
         this.$refs.form.resetValidation()
       }
