@@ -110,16 +110,20 @@ To Do
     - [DONE] Will need to recreate the Profiles at some point
   - [DONE] When Profile is deleted, all profiles it is linked to should get updated (profile removed).
     - [DONE] Get working for Relationship
+  - [DONE] Edits to family should also change the other Profile
 
 
+
+
+
+  - Changes to relationship (to Single) should remove relationshipPerson
+    - Edits to relationship should also change the other Profile
 
 
   - Don't allow a person to be in a relationship with more than 1 person
     - Check if profile is already in a relationship
 
-  - Changes to relationship (to Single) should remove relationshipPerson
 
-  - Edits to family / relationship should also change the other Profile
 
 
 
@@ -127,6 +131,8 @@ To Do
     - Dropdown vs Text Search
       - Text Search would work exactly like "searchAllProfilesByName()"
       - Dropdown would filter by... Relation? Gender? Relationship?
+    - Combobox [?]
+      - Dropdown && Text Search
 
 
 

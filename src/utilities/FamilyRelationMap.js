@@ -31,17 +31,17 @@ export default {
   },
   'Brother': {
     'Male': 'Brother',
-    'Female': 'Brother',
+    'Female': 'Sister',
     'Other': 'Sibling'
   },
   'Sister': {
     'Male': 'Brother',
-    'Female': 'Brother',
+    'Female': 'Sister',
     'Other': 'Sibling'
   },
   'Sibling': {
     'Male': 'Brother',
-    'Female': 'Brother',
+    'Female': 'Sister',
     'Other': 'Sibling'
   },
   'Son': {

@@ -33,7 +33,7 @@ export default {
     },
     deleteProfileFromRelationship (profile) {
       let relationship = profile.relationshipPerson
-      if (relationship.profileId) {
+      if (relationship && relationship.profileId) {
         let relationshipProfile = this.$store.getters.getProfileById(relationship.profileId)
         relationshipProfile.relationshipPerson = null
         relationshipProfile.relationship = null
@@ -41,7 +41,8 @@ export default {
       }
     },
     deleteProfileFromFamily (profile) {
-      let familyMembers = profile.familyMembers
+      // Rare case when familyMembers is 'undefined', just use []
+      let familyMembers = profile.familyMembers || []
       for (let member of familyMembers) {
         // If a profileId exists, then a profile of that person exists.
         if (member.profileId) {

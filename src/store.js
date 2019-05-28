@@ -125,18 +125,45 @@ export default new Vuex.Store({
       }
     },
     populateRelationship ({ commit, dispatch, getters }, profile) {
-      // Only do this for  relationships that make sense
-      if (profile.relationship === 'In a Relationship' || profile.relationship === 'Engaged' || profile.relationship === 'Married') {
-        // Get Profile of relationshipPerson
-        let relationshipProfile = getters.getProfileById(profile.relationshipPerson.profileId)
-        if (relationshipProfile) {
-          // Their relationship would be the same as yours
-          relationshipProfile.relationship = profile.relationship
-          relationshipProfile.relationshipPerson = {
-            person: `${profile.firstName} ${profile.lastName}`,
-            profileId: `${profile.uniqueId}`
+      // Get Profile of relationshipPerson
+      let relationshipProfile = getters.getProfileById(profile.relationshipPerson.profileId)
+
+      if (relationshipProfile) {
+        // Only do this for  relationships that make sense
+        if (profile.relationship === 'In a Relationship' || profile.relationship === 'Engaged' || profile.relationship === 'Married') {
+          if (relationshipProfile) {
+            // Their relationship would be the same as yours
+            relationshipProfile.relationship = profile.relationship
+            relationshipProfile.relationshipPerson = {
+              person: `${profile.firstName} ${profile.lastName}`,
+              profileId: `${profile.uniqueId}`
+            }
           }
-          dispatch('editProfile', relationshipProfile)
+        } else {
+          if (relationshipProfile) {
+            // If Profile changes to "Single", "Divorced", or "Widowed", then remove this Profile from other Profile
+            relationshipProfile.relationship = null
+            relationshipProfile.relationshipPerson = null
+          }
+        }
+        dispatch('editProfile', relationshipProfile)
+      }
+    },
+    removeFamilyRelations ({ commit, dispatch, getters }, { profile, profilesToDelete }) {
+      for (let member of profilesToDelete) {
+        // Only do this for profiles that are "linked" (both profiles exist)
+        if (member.profileId) {
+          let memberProfile = getters.getProfileById(member.profileId)
+          let memberFamilyMembers = memberProfile.familyMembers
+          // Loop through each familyMember
+          for (let index in memberFamilyMembers) {
+            let familyMember = memberFamilyMembers[index]
+            // Once a match is found, remove it from familyMembers
+            if (familyMember.profileId === profile.uniqueId) {
+              memberFamilyMembers.splice(index, 1)
+            }
+            dispatch('editProfile', memberProfile)
+          }
         }
       }
     }

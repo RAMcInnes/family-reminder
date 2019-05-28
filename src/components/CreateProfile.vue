@@ -160,7 +160,7 @@
               fab
               small
               color="red"
-              @click="removeFamilyMember(index)"
+              @click="removeFamilyMember(member,index)"
             >
               <v-icon>remove</v-icon>
             </v-btn>
@@ -300,6 +300,7 @@ export default {
       personSearchProfile: null,
       relationPerson: this.profile.relationPerson,
       familyMembers: this.profile.familyMembers || [],
+      removedFamilyMembers: [],
       notes: this.profile.notes
     }
   },
@@ -350,8 +351,9 @@ export default {
     saveBirthday (date) {
       this.$refs.menu.save(date)
     },
-    removeFamilyMember (index) {
+    removeFamilyMember (familyMember, index) {
       this.familyMembers.splice(index, 1)
+      this.removedFamilyMembers.push(familyMember)
     },
     addFamilyMember () {
       let familyObj = {
@@ -432,6 +434,7 @@ export default {
       this.relation = null
       this.relationPerson = null
       this.familyMembers = []
+      this.removedFamilyMembers = []
       this.notes = null
       this.$refs.form.resetValidation()
     },
@@ -455,6 +458,12 @@ export default {
           familyMembers: this.familyMembers,
           notes: this.notes
         }
+        // Delete family remember relation in other Profile (if applicable)
+        this.$store.dispatch('removeFamilyRelations', { profile: profileObj, profilesToDelete: this.removedFamilyMembers })
+        // Auto-populate family memeber relations in other Profiles
+        this.$store.dispatch('populateFamilyRelations', profileObj)
+        // Auto-populate relationship in other Profile
+        this.$store.dispatch('populateRelationship', profileObj)
         this.$store.dispatch('editProfile', profileObj)
         this.$refs.form.resetValidation()
       }
