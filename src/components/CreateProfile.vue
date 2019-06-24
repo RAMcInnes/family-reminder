@@ -309,10 +309,10 @@ export default {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     },
     partnerSearchProfile (val) {
-      val && val !== this.relationshipPerson && this.searchAllProfilesByName(val)
+      val && val !== this.relationshipPerson && this.searchAllProfilesByNameForRelationship(val)
     },
     personSearchProfile (val) {
-      val && val !== this.relationPerson && this.searchAllProfilesByName(val)
+      val && val !== this.relationPerson && this.searchAllProfilesByNameForFamily(val)
     }
   },
   computed: {
@@ -386,9 +386,37 @@ export default {
       }
     },
     // TODO: This should probably be in the "getters" of the store - this.$store.getters.searchAllProfiles(name)
-    searchAllProfilesByName (name) {
+    // Not the best name. I know. Might want to combine this with searchAllProfilesByNameForFamily and pass in parameter.
+    searchAllProfilesByNameForRelationship (name) {
       const profiles = this.$store.getters.profiles
+      // Filter out current Profile from the list
       this.filteredProfiles = profiles.filter(profile => {
+        return ((profile.firstName !== this.firstName) || (profile.lastName !== this.lastName))
+      })
+      // Filter out Profiles in relationships
+      this.filteredProfiles = this.filteredProfiles.filter(profile => {
+        return ((!profile.relationship) ||
+          (profile.relationship === 'Single') ||
+          (profile.relationship === 'Divorced') ||
+          (profile.relationship === 'Widowed'))
+      })
+      // Filter out firstNames, or lastNames, or fullNames that don't match "name"
+      this.filteredProfiles = this.filteredProfiles.filter(profile => {
+        return ((profile.firstName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
+          ((profile.lastName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
+          (this.fullName(profile).toLowerCase().indexOf((name || '').toLowerCase()) > -1)
+      })
+    },
+    // TODO: This should probably be in the "getters" of the store - this.$store.getters.searchAllProfiles(name)
+    // Not the best name. I know. Might want to combine this with searchAllProfilesByNameForRelationship and pass in parameter.
+    searchAllProfilesByNameForFamily (name) {
+      const profiles = this.$store.getters.profiles
+      // Filter out current Profile from the list
+      this.filteredProfiles = profiles.filter(profile => {
+        return ((profile.firstName !== this.firstName) || (profile.lastName !== this.lastName))
+      })
+      // Filter out firstNames, or lastNames, or fullNames that don't match "name"
+      this.filteredProfiles = this.filteredProfiles.filter(profile => {
         return ((profile.firstName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
           ((profile.lastName || '').toLowerCase().indexOf((name || '').toLowerCase()) > -1) ||
           (this.fullName(profile).toLowerCase().indexOf((name || '').toLowerCase()) > -1)

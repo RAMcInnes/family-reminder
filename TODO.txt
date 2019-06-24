@@ -111,25 +111,23 @@ To Do
   - [DONE] When Profile is deleted, all profiles it is linked to should get updated (profile removed).
     - [DONE] Get working for Relationship
   - [DONE] Edits to family should also change the other Profile
+  - [DONE] Changes to relationship (to Single) should remove relationshipPerson
+    - [DONE] Edits to relationship should also change the other Profile
+  - [DONE] Don't allow a person to be in a relationship with more than 1 person
+    - [DONE] Check if profile is already in a relationship
+    - NOTE: This is kind of "DONE". Profiles in relationships won't be searchable.
 
 
 
 
-
-  - Changes to relationship (to Single) should remove relationshipPerson
-    - Edits to relationship should also change the other Profile
-
-
-  - Don't allow a person to be in a relationship with more than 1 person
-    - Check if profile is already in a relationship
-
+  - Fill out with information (McInnes & Misitano Family)
 
 
 
 
   - Create a "filter" on the main page that can filter through all of the existing Profiles
     - Dropdown vs Text Search
-      - Text Search would work exactly like "searchAllProfilesByName()"
+      - Text Search would work like "searchAllProfilesByName()"
       - Dropdown would filter by... Relation? Gender? Relationship?
     - Combobox [?]
       - Dropdown && Text Search
